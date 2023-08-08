@@ -3,11 +3,12 @@
 use App\Http\Controllers\CorController;
 use App\Http\Controllers\MarcaController;
 use App\Http\Controllers\ModeloController;
-use App\Http\Controllers\CarroController;
+use App\Http\Controllers\UsuarioController;
 use App\Http\Controllers\HomeController;
 use App\Http\Middleware\Autenticador;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\SocialiteController;
+
 
 /*
 |--------------------------------------------------------------------------
@@ -29,8 +30,10 @@ Route::get('/', [HomeController::class, 'index'])->name('home.index')->secure();
 Route::get('/home', [HomeController::class, 'index'])->name('home.index')->secure();
 
 //cor
-Route::resource('/cor',CorController::class)
-    ->except(['show'])->middleware(Autenticador::class);
+Route::resource('/cor',CorController::class)->except(['show'])->middleware(Autenticador::class);
+//usuarios
+Route::resource('/usuario', UsuarioController::class)->middleware(Autenticador::class);
+
 
 
 

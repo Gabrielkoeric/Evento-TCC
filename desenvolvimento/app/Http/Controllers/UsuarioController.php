@@ -4,28 +4,20 @@ namespace App\Http\Controllers;
 
 use App\Models\Usuarios;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
-use function Laravel\Prompts\select;
 
-class HomeController extends Controller
+class UsuarioController extends Controller
 {
     /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
+        $usuarios = Usuarios::all();
+        $mensagemSucesso = $request->session()->get('mensagem.sucesso');
 
-        //dd($imagem_usuario);
-        //echo ($imagem_usuario);
-        //dd(Auth::user());
-        //$imagem_usuario = Usuarios::where('id', $)->pluck('imagem')->first();
-        //$imagem_usuario = Usuarios::where('id', $usuarioId)->value('imagem');
-
-        //return view('Home.index')->with('imagem_usuario', $imagem_usuario);
-        return view('Home.index');
-
+        return view('usuarios.index')->with('usuarios', $usuarios)->with('mensagemSucesso', $mensagemSucesso);
     }
 
     /**
@@ -89,8 +81,9 @@ class HomeController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Usuarios $usuario)
     {
-        //
+        //$usuario->delete();
+        return to_route('usuario.index')->with('mensagem.sucesso', 'Usuario Removido com Sucesso');
     }
 }

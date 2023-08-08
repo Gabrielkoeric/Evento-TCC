@@ -29,11 +29,14 @@ class SocialiteController extends Controller
             echo "<h1> {$user->getId()}</h1>";
             echo "<h1> {$user->getNickname()}</h1>";*/
         //}else {
+            //$imagem_Path = $user->getAvatar()->store('imagens_usuarios', 'public');
             $usuario = new User();
             $usuario->nome_completo = $user->name;
             $usuario->email = $user->email;
             $usuario->celular = 123;
+            $usuario->imagem = $user->getAvatar();
             $usuario->save();
+
             //$existingUser = true;
             $existingUser = User::where('email', $user->getEmail())->first();
 
@@ -50,7 +53,8 @@ class SocialiteController extends Controller
         session([
             'id' => $user->getId(),
             'name' => $user->getName(),
-            'email' => $user->getEmail()
+            'email' => $user->getEmail(),
+            'avatar' =>$user->getAvatar()
         ]);
         //dd(Auth::user());
 

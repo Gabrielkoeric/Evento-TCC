@@ -19,6 +19,8 @@ return new class extends Migration
             $table->string('email', 50);
             $table->string('nome_completo', 255)->notNullable();
             $table->string('celular', 13)/*->notNullable()*/;
+            $table->string('imagem')->nullable();
+            $table->string('permissao')->default('basico');
             $table->timestamps();
         });
 
