@@ -19,7 +19,7 @@
                     <img src="{{Auth::user()->imagem}}" style="max-width: 75px; border-radius: 50%;">
                 </a>
                 <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                    <a class="dropdown-item" href="{{route('usuario.index')}}">Editar Usuario</a>
+                    <a class="dropdown-item" href="{{route('usuario.edit', Auth::User('id'))}}">Editar Usuario</a>
                     <a class="dropdown-item" href="{{route('logout')}}">Sair</a>
                 </div>
             </div>

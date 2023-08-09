@@ -18,10 +18,9 @@
                 <tbody>
                 @foreach ($usuarios as $usuario)
                     <tr>
-                        {{$request = $usuario}}
-                        <td><a href="{{ route('usuario.edit', $usuario ) }}" class="text-decoration-none text-dark">{{ $usuario->nome_completo }}</a></td>
-                        <td><a href="{{ route('usuario.edit', $usuario) }}" class="text-decoration-none text-dark">{{ $usuario->email }}</a></td>
-                        <td><a href="{{ route('usuario.edit', $usuario) }}" class="text-decoration-none text-dark">{{ $usuario->celular }}</a></td>
+                        <td><a href="{{ route('usuario.edit', $usuario->id ) }}" class="text-decoration-none text-dark">{{ $usuario->nome_completo }}</a></td>
+                        <td><a href="{{ route('usuario.edit', $usuario->id) }}" class="text-decoration-none text-dark">{{ $usuario->email }}</a></td>
+                        <td><a href="{{ route('usuario.edit', $usuario->id) }}" class="text-decoration-none text-dark">{{ $usuario->celular }}</a></td>
                     </tr>
                 @endforeach
 

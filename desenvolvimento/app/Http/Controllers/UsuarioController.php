@@ -70,9 +70,9 @@ class UsuarioController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit(Request $request)
+    public function edit(Usuarios $usuario)
     {
-        return view('usuarios.edit')->with('Request', $request);
+        return view('usuarios.edit')->with('usuario', $usuario);
     }
 
     /**
@@ -82,13 +82,27 @@ class UsuarioController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request)
+   /* public function update(Usuarios $usuario, Request $request)
     {
-        $cor->cores_nome = $request->nome;
-        $cor->save();
+        $usuario->nome_completo = $request->nome;
+        $usuario->save();
 
-        return to_route('cor.index')->with('mensagem.sucesso', 'Cor Alterada com Sucesso');
+        return to_route('usuarios.index')->with('mensagem.sucesso', 'Usuario Alterado com Sucesso');
+    }*/
+
+    public function update($usuario, Request $request)
+    {
+        $usuarioObj = Usuarios::findOrFail($usuario);
+
+        $usuarioObj->nome_completo = $request->nome;
+        //$usuarioObj->email = $request->email;
+        $usuarioObj->celular = $request->celular;
+        $usuarioObj->permissao = $request->permissao;
+        $usuarioObj->save();
+
+        return redirect()->route('usuario.index')->with('mensagem.sucesso', 'Usuário Alterado com Sucesso');
     }
+
 
     /**
      * Remove the specified resource from storage.
