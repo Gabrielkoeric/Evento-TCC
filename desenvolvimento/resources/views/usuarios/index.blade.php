@@ -1,6 +1,6 @@
 <x-layout title="Usuarios">
     <a href="{{route('home.index')}}" class="btn btn-dark mb-2">Home</a>
-    <a href="{{route('cor.create')}}" class="btn btn-dark mb-2">Adicionar</a>
+    <a href="{{route('usuario.create')}}" class="btn btn-dark mb-2">Adicionar</a>
 
     @isset($mensagemSucesso)
         <div class="alert alert-success">{{ $mensagemSucesso }}</div>
@@ -18,9 +18,10 @@
                 <tbody>
                 @foreach ($usuarios as $usuario)
                     <tr>
-                        <td><a href="{{ route('usuario.index', $usuario) }}" class="text-decoration-none text-dark">{{ $usuario->nome_completo }}</a></td>
-                        <td><a href="{{ route('usuario.index', $usuario) }}" class="text-decoration-none text-dark">{{ $usuario->email }}</a></td>
-                        <td><a href="{{ route('usuario.index', $usuario) }}" class="text-decoration-none text-dark">{{ $usuario->celular }}</a></td>
+                        {{$request = $usuario}}
+                        <td><a href="{{ route('usuario.edit', $usuario ) }}" class="text-decoration-none text-dark">{{ $usuario->nome_completo }}</a></td>
+                        <td><a href="{{ route('usuario.edit', $usuario) }}" class="text-decoration-none text-dark">{{ $usuario->email }}</a></td>
+                        <td><a href="{{ route('usuario.edit', $usuario) }}" class="text-decoration-none text-dark">{{ $usuario->celular }}</a></td>
                     </tr>
                 @endforeach
 

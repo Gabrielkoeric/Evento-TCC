@@ -1,8 +1,5 @@
 <?php
 
-use App\Http\Controllers\CorController;
-use App\Http\Controllers\MarcaController;
-use App\Http\Controllers\ModeloController;
 use App\Http\Controllers\UsuarioController;
 use App\Http\Controllers\HomeController;
 use App\Http\Middleware\Autenticador;
@@ -29,25 +26,9 @@ Route::get('/', [HomeController::class, 'index'])->name('home.index')->secure();
 //home
 Route::get('/home', [HomeController::class, 'index'])->name('home.index')->secure();
 
-//cor
-Route::resource('/cor',CorController::class)->except(['show'])->middleware(Autenticador::class);
 //usuarios
 Route::resource('/usuario', UsuarioController::class)->middleware(Autenticador::class);
 
-
-
-
-//marca
-Route::get('/marca', [MarcaController::class, 'index'])->name('marca.index')->secure();
-Route::get('/marca/criar', [MarcaController::class, 'create'])->name('marca.create');
-Route::get('/marca/excluir/{id}', [MarcaController::class, 'destroy'])->name('marca.destroy');
-Route::get('/marca/salvar', [MarcaController::class, 'store'])->name('marca.salvar');
-
-//modelo
-Route::get('/modelo', [ModeloController::class, 'index'])->name('modelo.index');
-Route::get('/modelo/criar', [ModeloController::class, 'create'])->name('modelo.create');
-Route::get('/modelo/excluir/{id}', [ModeloController::class, 'destroy'])->name('modelo.destroy');
-Route::get('/modelo/salvar', [ModeloController::class, 'store'])->name('modelo.salvar');
 
 //Route::get('login/google', "SocialiteController@redirectToProvider");
 //Route::get('login/google/callback', 'SocialiteController@handleProviderCalback');

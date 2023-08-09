@@ -27,7 +27,7 @@ class UsuarioController extends Controller
      */
     public function create()
     {
-        //
+        return view('usuarios.create');
     }
 
     /**
@@ -38,7 +38,19 @@ class UsuarioController extends Controller
      */
     public function store(Request $request)
     {
-        //
+
+        $usuario = $request->input('nome');
+        $email = $request->input('email');
+        $celular = $request->input('celular');
+        $permissao = $request->input('permissao');
+
+        $usuario_n = new Usuarios();
+        $usuario_n->nome_completo = $usuario;
+        $usuario_n->email = $email;
+        $usuario_n->celular = $celular;
+        $usuario_n->permissao = $permissao;
+        $usuario_n->save();
+        return redirect('/usuario')->with('mensagem.sucesso', 'Usuario inserido com sucesso!');
     }
 
     /**
@@ -58,9 +70,9 @@ class UsuarioController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit(Request $request)
     {
-        //
+        return view('usuarios.edit')->with('Request', $request);
     }
 
     /**
@@ -70,9 +82,12 @@ class UsuarioController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request)
     {
-        //
+        $cor->cores_nome = $request->nome;
+        $cor->save();
+
+        return to_route('cor.index')->with('mensagem.sucesso', 'Cor Alterada com Sucesso');
     }
 
     /**

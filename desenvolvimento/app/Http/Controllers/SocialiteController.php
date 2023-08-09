@@ -47,6 +47,11 @@ class SocialiteController extends Controller
             echo "<h1> {$user->getNickname()}</h1>";*/
             //var_dump($user);
 
+        }else{
+            if ($existingUser->imagem !== $user->getAvatar()) {
+                $existingUser->imagem = $user->getAvatar();
+                $existingUser->save();
+            }
         }
 
         Auth::login($existingUser);
