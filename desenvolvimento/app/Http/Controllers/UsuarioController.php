@@ -112,7 +112,7 @@ class UsuarioController extends Controller
      */
     public function destroy(Usuarios $usuario)
     {
-        //$usuario->delete();
+        $usuario->delete();
         return to_route('usuario.index')->with('mensagem.sucesso', 'Usuario Removido com Sucesso');
     }
 }

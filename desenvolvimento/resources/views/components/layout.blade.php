@@ -16,7 +16,7 @@
         @auth
             <div class="dropdown">
                 <a class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                    <img src="{{Auth::user()->imagem}}" style="max-width: 75px; border-radius: 50%;">
+                    <img src="{{Auth::user()->imagem}}" style="max-width: 65px; border-radius: 50%;">
                 </a>
                 <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
                     <a class="dropdown-item" href="{{route('usuario.edit', Auth::User('id'))}}">Editar Usuario</a>
