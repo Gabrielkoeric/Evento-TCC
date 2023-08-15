@@ -2,10 +2,12 @@
 
 namespace App\Http\Controllers;
 
+use App\Mail\NovoUsuario;
 use App\Models\User;
 use App\Models\Usuarios;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Mail;
 use Laravel\Socialite\Facades\Socialite;
 
 class SocialiteController extends Controller
@@ -36,9 +38,12 @@ class SocialiteController extends Controller
             $usuario->celular = 123;
             $usuario->imagem = $user->getAvatar();
             $usuario->save();
-
             //$existingUser = true;
             $existingUser = User::where('email', $user->getEmail())->first();
+            Auth::login($existingUser);
+            //email
+            $email = new NovoUsuario($user->getName());
+            Mail::to($user->getEmail())->queue($email);
 
           /*  echo "<h1>Seja bem vindo {$user->getName()}</h1>";
             echo "<img src='{$user->getAvatar()}' style='max-width: 200px; border-radius: 50%;'>";

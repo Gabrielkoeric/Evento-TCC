@@ -20,9 +20,11 @@
     </div>
     <button type="submit" class="btn btn-primary">Salvar</button>
     <a href="{{route('usuario.index')}}" class="btn btn-danger">Cancelar</a>
-    <form action="{{route('usuario.destroy', $nome)}}" method="post" class="ms-2">
-        @csrf
-        @method('DELETE')
-        <button class="btn btn-danger">Excluir</button>
-    </form>
+    @isset($nome)
+        <form action="{{route('usuario.destroy', $nome)}}" method="post" class="ms-2">
+            @csrf
+            @method('DELETE')
+            <button class="btn btn-danger">Excluir</button>
+        </form>
+    @endisset
 </form>
