@@ -20,12 +20,7 @@
     </div>
     <button type="submit" class="btn btn-primary">Salvar</button>
     <a href="{{route('usuario.index')}}" class="btn btn-primary">Cancelar</a>
-
-    @isset($nome)
-        <form action="{{route('usuario.destroy', $nome)}}" method="post" class="ms-2">
-            @csrf
-            @method('DELETE')
-            <button type="submit" class="btn btn-danger">Excluir</button>
-        </form>
-    @endisset
 </form>
+
+
+

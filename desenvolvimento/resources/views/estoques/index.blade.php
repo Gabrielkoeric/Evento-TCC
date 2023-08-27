@@ -25,6 +25,15 @@
                         <td><a href="{{ route('estoque.edit', $estoque->cod_produto_estoque) }}" class="text-decoration-none text-dark">{{ $estoque->quantidade_atual }}</a></td>
                         <td><a href="{{ route('estoque.edit', $estoque->cod_produto_estoque) }}" class="text-decoration-none text-dark">{{ $estoque->valor_custo }}</a></td>
                         <td><a href="{{ route('estoque.edit', $estoque->cod_produto_estoque) }}" class="text-decoration-none text-dark">{{ $estoque->valor_venda }}</a></td>
+                        <td>
+                        <span class="d-flex">
+                            <form action="{{route('estoque.destroy', $estoque)}}" method="post" class="ms-2">
+                                @csrf
+                                @method('DELETE')
+                                <button class="btn btn-danger btn-sm">Excluir</button>
+                            </form>
+                        </span>
+                        </td>
                     </tr>
                 @endforeach
 

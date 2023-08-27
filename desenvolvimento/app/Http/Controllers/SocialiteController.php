@@ -42,9 +42,8 @@ class SocialiteController extends Controller
             $existingUser = User::where('email', $user->getEmail())->first();
             Auth::login($existingUser);
             //email
-            $email = new NovoUsuario($user->getName());
-            Mail::to($user->getEmail())->queue($email);
-
+                $email = new NovoUsuario($user->getName());
+                Mail::to($user->getEmail())->queue($email);
           /*  echo "<h1>Seja bem vindo {$user->getName()}</h1>";
             echo "<img src='{$user->getAvatar()}' style='max-width: 200px; border-radius: 50%;'>";
             echo "<h1> {$user->getEmail()}</h1>";

@@ -38,18 +38,20 @@ class EstoqueController extends Controller
     public function store(Request $request)
     {
 
+
         $nome = $request->input('nome');
-        $qtd_inicial = $request->input('qtd_inicial');
-        $qtd_atual = $request->input('qtd_atual');
-        $val_custo = $request->input('val_custo');
-        $val_venda = $request->input('val_venda');
+        //dd($request);
+        $quantidadeInicial = $request->input('quantidadeInicial');
+        $quantidadeAtual = $request->input('quantidadeAtual');
+        $valorCusto = $request->input('valorCusto');
+        $valorVenda = $request->input('valorVenda');
 
         $produto_novo = new Estoques();
         $produto_novo->nome = $nome;
-        $produto_novo->quantidade_inicial = $qtd_inicial;
-        $produto_novo->quantidade_atual = $qtd_atual;
-        $produto_novo->valor_custo = $val_custo;
-        $produto_novo->valor_venda = $val_venda;
+        $produto_novo->quantidade_inicial = $quantidadeInicial;
+        $produto_novo->quantidade_atual = $quantidadeAtual;
+        $produto_novo->valor_custo = $valorCusto;
+        $produto_novo->valor_venda = $valorVenda;
         $produto_novo->save();
 
         return redirect('/estoque')->with('mensagem.sucesso', 'Produto inserido com sucesso!');
@@ -87,22 +89,24 @@ class EstoqueController extends Controller
      */
     public function update($estoque, Request $request)
     {
-        dd($estoque);
+        //dd($request);
         $estoqueObj = Estoques::findOrFail($estoque);
 
         $estoqueObj->nome = $request->nome;
-        $estoqueObj->email = $request->email;
-        $estoqueObj->celular = $request->celular;
-        $estoqueObj->permissao = $request->permissao;
+        $estoqueObj->quantidade_inicial = $request->quantidadeInicial;
+        $estoqueObj->quantidade_atual = $request->quantidadeAtual;
+        $estoqueObj->valor_custo = $request->valorCusto;
+        $estoqueObj->valor_venda = $request->valorVenda;
         $estoqueObj->save();
 
-        $produto_novo->nome = $nome;
+
+      /*  $produto_novo->nome = $nome;
         $produto_novo->quantidade_inicial = $qtd_inicial;
         $produto_novo->quantidade_atual = $qtd_atual;
         $produto_novo->valor_custo = $val_custo;
-        $produto_novo->valor_venda = $val_venda;
+        $produto_novo->valor_venda = $val_venda;*/
 
-        return redirect()->route('usuario.index')->with('mensagem.sucesso', 'Usuário Alterado com Sucesso');
+        return redirect()->route('estoque.index')->with('mensagem.sucesso', 'Produto Alterado com Sucesso!');
     }
 
     /**
@@ -111,8 +115,10 @@ class EstoqueController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Estoques $estoque)
     {
-        //
+        $estoque->delete();
+        return to_route('estoque.index')->with('mensagem.sucesso', 'Produto Removido com Sucesso do Estoque!');
     }
+
 }
