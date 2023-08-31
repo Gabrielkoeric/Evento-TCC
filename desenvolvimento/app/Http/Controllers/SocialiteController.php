@@ -25,32 +25,17 @@ class SocialiteController extends Controller
         $existingUser = User::where('email', $user->getEmail())->first();
 
         if (!$existingUser) {
-           /* echo "<h1>Seja bem vindo {$user->getName()}</h1>";
-            echo "<img src='{$user->getAvatar()}' style='max-width: 200px; border-radius: 50%;'>";
-            echo "<h1> {$user->getEmail()}</h1>";
-            echo "<h1> {$user->getId()}</h1>";
-            echo "<h1> {$user->getNickname()}</h1>";*/
-        //}else {
-            //$imagem_Path = $user->getAvatar()->store('imagens_usuarios', 'public');
             $usuario = new User();
             $usuario->nome_completo = $user->name;
             $usuario->email = $user->email;
             $usuario->celular = 123;
             $usuario->imagem = $user->getAvatar();
             $usuario->save();
-            //$existingUser = true;
             $existingUser = User::where('email', $user->getEmail())->first();
             Auth::login($existingUser);
             //email
                 $email = new NovoUsuario($user->getName());
                 Mail::to($user->getEmail())->queue($email);
-          /*  echo "<h1>Seja bem vindo {$user->getName()}</h1>";
-            echo "<img src='{$user->getAvatar()}' style='max-width: 200px; border-radius: 50%;'>";
-            echo "<h1> {$user->getEmail()}</h1>";
-            echo "<h1> {$user->getId()}</h1>";
-            echo "<h1> {$user->getNickname()}</h1>";*/
-            //var_dump($user);
-
         }else{
             if ($existingUser->imagem !== $user->getAvatar()) {
                 $existingUser->imagem = $user->getAvatar();
@@ -65,8 +50,6 @@ class SocialiteController extends Controller
             'email' => $user->getEmail(),
             'avatar' =>$user->getAvatar()
         ]);
-        //dd(Auth::user());
-
         return to_route('home.index');
     }
 

@@ -20,6 +20,7 @@ return new class extends Migration
             $table->integer('quantidade_atual');
             $table->decimal('valor_custo', 10, 2); // Altere conforme necessário
             $table->decimal('valor_venda', 10, 2); // Altere conforme necessário
+            $table->string('imagemProduto')->nullable();
             $table->timestamps();
         });
         DB::statement('ALTER TABLE estoques COMMENT = "Tabela referente à inserção de dados de estoque."');

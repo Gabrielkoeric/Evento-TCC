@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Estoques;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 
 class EstoqueController extends Controller
 {
@@ -37,10 +38,9 @@ class EstoqueController extends Controller
      */
     public function store(Request $request)
     {
-
-
+        $imagemProdutoPath = $request->file('imagemProduto')->store('imagemProduto', 'public');
+        $request->imagemProduto = $imagemProdutoPath;
         $nome = $request->input('nome');
-        //dd($request);
         $quantidadeInicial = $request->input('quantidadeInicial');
         $quantidadeAtual = $request->input('quantidadeAtual');
         $valorCusto = $request->input('valorCusto');
@@ -52,6 +52,7 @@ class EstoqueController extends Controller
         $produto_novo->quantidade_atual = $quantidadeAtual;
         $produto_novo->valor_custo = $valorCusto;
         $produto_novo->valor_venda = $valorVenda;
+        $produto_novo->imagemProduto = $imagemProdutoPath;
         $produto_novo->save();
 
         return redirect('/estoque')->with('mensagem.sucesso', 'Produto inserido com sucesso!');
@@ -76,7 +77,6 @@ class EstoqueController extends Controller
      */
     public function edit(Estoques $estoque)
     {
-        //dd($estoque);
         return view('estoques.edit')->with('estoque', $estoque);
     }
 
@@ -89,22 +89,13 @@ class EstoqueController extends Controller
      */
     public function update($estoque, Request $request)
     {
-        //dd($request);
         $estoqueObj = Estoques::findOrFail($estoque);
-
         $estoqueObj->nome = $request->nome;
         $estoqueObj->quantidade_inicial = $request->quantidadeInicial;
         $estoqueObj->quantidade_atual = $request->quantidadeAtual;
         $estoqueObj->valor_custo = $request->valorCusto;
         $estoqueObj->valor_venda = $request->valorVenda;
         $estoqueObj->save();
-
-
-      /*  $produto_novo->nome = $nome;
-        $produto_novo->quantidade_inicial = $qtd_inicial;
-        $produto_novo->quantidade_atual = $qtd_atual;
-        $produto_novo->valor_custo = $val_custo;
-        $produto_novo->valor_venda = $val_venda;*/
 
         return redirect()->route('estoque.index')->with('mensagem.sucesso', 'Produto Alterado com Sucesso!');
     }
@@ -117,7 +108,10 @@ class EstoqueController extends Controller
      */
     public function destroy(Estoques $estoque)
     {
+        //dd($estoque->imagemProduto);
+        Storage::delete($estoque->imagemProduto);
         $estoque->delete();
+
         return to_route('estoque.index')->with('mensagem.sucesso', 'Produto Removido com Sucesso do Estoque!');
     }
 

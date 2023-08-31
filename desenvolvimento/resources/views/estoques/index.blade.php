@@ -20,6 +20,8 @@
                 <tbody>
                 @foreach ($estoques as $estoque)
                     <tr>
+
+                        <td><a href="{{ route('estoque.edit', $estoque->cod_produto_estoque) }}" class="text-decoration-none text-dark"><img src="{{asset('storage/' . $estoque->imagemProduto)}}" alt="imagem" class="img-fluid"></a></td>
                         <td><a href="{{ route('estoque.edit', $estoque->cod_produto_estoque) }}" class="text-decoration-none text-dark">{{ $estoque->nome }}</a></td>
                         <td><a href="{{ route('estoque.edit', $estoque->cod_produto_estoque) }}" class="text-decoration-none text-dark">{{ $estoque->quantidade_inicial }}</a></td>
                         <td><a href="{{ route('estoque.edit', $estoque->cod_produto_estoque) }}" class="text-decoration-none text-dark">{{ $estoque->quantidade_atual }}</a></td>

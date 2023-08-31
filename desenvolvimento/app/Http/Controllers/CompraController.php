@@ -2,21 +2,21 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Usuarios;
+use App\Models\Estoques;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
-use function Laravel\Prompts\select;
 
-class HomeController extends Controller
+class CompraController extends Controller
 {
     /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        return view('Home.index');
+        $estoques = Estoques::all();
+        $mensagemSucesso = $request->session()->get('mensagem.sucesso');
+        return view('compras.index')->with('estoques', $estoques)->with('mensagemSucesso', $mensagemSucesso);
     }
 
     /**

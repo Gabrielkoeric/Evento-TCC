@@ -82,27 +82,16 @@ class UsuarioController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-   /* public function update(Usuarios $usuario, Request $request)
-    {
-        $usuario->nome_completo = $request->nome;
-        $usuario->save();
-
-        return to_route('usuarios.index')->with('mensagem.sucesso', 'Usuario Alterado com Sucesso');
-    }*/
-
     public function update($usuario, Request $request)
     {
         $usuarioObj = Usuarios::findOrFail($usuario);
-
         $usuarioObj->nome_completo = $request->nome;
         //$usuarioObj->email = $request->email;
         $usuarioObj->celular = $request->celular;
         $usuarioObj->permissao = $request->permissao;
         $usuarioObj->save();
-
         return redirect()->route('usuario.index')->with('mensagem.sucesso', 'Usuário Alterado com Sucesso');
     }
-
 
     /**
      * Remove the specified resource from storage.
