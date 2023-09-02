@@ -29,11 +29,11 @@ Route::get('/', [HomeController::class, 'index'])->name('home.index')->secure();
 Route::get('/home', [HomeController::class, 'index'])->name('home.index')->secure();
 
 //usuarios
-Route::resource('/usuario', UsuarioController::class)->middleware(Autenticador::class);
+Route::resource('/usuario', UsuarioController::class)/*->middleware(Autenticador::class)*/;
 //Produtos
-Route::resource('/estoque', EstoqueController::class)->middleware(Autenticador::class);
-//Produtos
-Route::resource('/compra', CompraController::class)->middleware(Autenticador::class);
+Route::resource('/estoque', EstoqueController::class)/*->middleware(Autenticador::class)*/;
+//compra
+Route::resource('/compra', CompraController::class)/*->middleware(Autenticador::class)*/;
 
 //Route::get('login/google', "SocialiteController@redirectToProvider");
 //Route::get('login/google/callback', 'SocialiteController@handleProviderCalback');

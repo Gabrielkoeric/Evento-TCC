@@ -38,6 +38,7 @@ class EstoqueController extends Controller
      */
     public function store(Request $request)
     {
+        //dd($request);
         $imagemProdutoPath = $request->file('imagemProduto')->store('imagemProduto', 'public');
         $request->imagemProduto = $imagemProdutoPath;
         $nome = $request->input('nome');

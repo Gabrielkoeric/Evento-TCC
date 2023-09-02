@@ -17,20 +17,16 @@ document.addEventListener("DOMContentLoaded", function () {
   var cart = [];
   increaseButtons.forEach(function (button, index) {
     button.addEventListener('click', function () {
-      var estoqueId = button.getAttribute('data-estoque-id'); // Obtenha o estoque ID
-
-      updateValue(numberInputs[index], 1, parseFloat(valorVendaElements[index].getAttribute('data-valorvenda')), estoqueId);
+      updateValue(numberInputs[index], 1, parseFloat(valorVendaElements[index].getAttribute('data-valorvenda')), index);
     });
   });
   decreaseButtons.forEach(function (button, index) {
     button.addEventListener('click', function () {
-      var estoqueId = button.getAttribute('data-estoque-id'); // Obtenha o estoque ID
-
-      updateValue(numberInputs[index], -1, parseFloat(valorVendaElements[index].getAttribute('data-valorvenda')), estoqueId);
+      updateValue(numberInputs[index], -1, parseFloat(valorVendaElements[index].getAttribute('data-valorvenda')), index);
     });
   });
 
-  function updateValue(inputElement, multiplier, valorVenda, estoqueId) {
+  function updateValue(inputElement, multiplier, valorVenda, index) {
     var currentValue = Number(inputElement.value);
     var newValue = currentValue + multiplier;
 
@@ -40,7 +36,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
       updateTotalValue(multiplier, valorVenda); // Atualizar o carrinho de compras
 
-      updateCart(estoqueId, newValue);
+      updateCart();
     }
   }
 
@@ -49,23 +45,21 @@ document.addEventListener("DOMContentLoaded", function () {
     totalElement.innerText = "Total: R$ ".concat(totalValue.toFixed(2));
   }
 
-  function updateCart(estoqueId, newValue) {
-    // Verifique se o item já existe no carrinho
-    var existingItem = cart.find(function (item) {
-      return item.id_estoque === estoqueId;
-    });
+  function updateCart() {
+    cart = []; // Para cada produto na lista
 
-    if (existingItem) {
-      // Atualize a quantidade do item no carrinho
-      existingItem.quantidadeInicial = newValue;
-    } else {
-      // Adicione um novo item ao carrinho
-      cart.push({
-        _token: csrfToken,
-        id_estoque: estoqueId,
-        quantidadeInicial: newValue
-      });
-    }
+    increaseButtons.forEach(function (button, index) {
+      var estoqueId = button.getAttribute('data-estoque-id');
+      var quantity = numberInputs[index].value;
+
+      if (quantity > 0) {
+        cart.push({
+          _token: csrfToken,
+          id_estoque: estoqueId,
+          quantidadeInicial: quantity
+        });
+      }
+    });
   } // Lógica para enviar os dados do carrinho para a rota de compra.store
 
 
