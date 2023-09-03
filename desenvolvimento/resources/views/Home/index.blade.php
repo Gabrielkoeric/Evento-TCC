@@ -44,5 +44,35 @@
                 </div>
             </div>
         </a>
+
+        <a href="{{route('vendas.index')}}" class="text-decoration-none">
+            <div class="card d-flex flex-column justify-content-center align-items-center p-2" style="width: 18rem;">
+                <img class="card-img-top" src="{{ asset('storage/home/minhasVendas.png') }}" alt="Imagem de capa do card" style="max-width: 50px; height: auto">
+                <div class="card-body">
+                    <h5
+                        href="{{route('vendas.index')}}"
+                        class="card-title"
+                        style="color: #495057"
+                    >
+                        Vendas (adm)
+                    </h5>
+                </div>
+            </div>
+        </a>
+
+        <a href="{{route('pedidos.index')}}" class="text-decoration-none">
+            <div class="card d-flex flex-column justify-content-center align-items-center p-2" style="width: 18rem;">
+                <img class="card-img-top" src="{{ asset('storage/home/minhasCompras.png') }}" alt="Imagem de capa do card" style="max-width: 50px; height: auto">
+                <div class="card-body">
+                    <h5
+                        href="{{route('pedidos.index')}}"
+                        class="card-title"
+                        style="color: #495057"
+                    >
+                        Pedidos (usuario final)
+                    </h5>
+                </div>
+            </div>
+        </a>
     </div>
 </x-layout>

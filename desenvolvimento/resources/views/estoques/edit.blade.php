@@ -1,5 +1,5 @@
 <x-layout title="Editar Produto '{{$estoque->nome}}'">
-    <x-estoque.forms :action="route('estoque.update', ['estoque' => $estoque->cod_produto_estoque])"
+    <x-estoque.forms :action="route('estoque.update', ['estoque' => $estoque->id_produto_estoque])"
                         :nome="$estoque->nome"
                         :quantidadeInicial="$estoque->quantidade_inicial"
                         :quantidadeAtual="$estoque->quantidade_atual"

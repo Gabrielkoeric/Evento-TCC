@@ -86,8 +86,7 @@ document.addEventListener("DOMContentLoaded", function () {
         body: formData
       }).then(function (response) {
         return response.json();
-      }).then(function (data) {
-        window.location.href = '/estoque';
+      }).then(function (data) {// Lógica para lidar com a resposta do servidor, se necessário
       })["catch"](function (error) {
         console.error('Erro ao enviar os dados do carrinho:', error);
       });

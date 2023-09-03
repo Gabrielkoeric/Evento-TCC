@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Estoques;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
 
 class EstoqueController extends Controller
@@ -16,6 +17,8 @@ class EstoqueController extends Controller
     public function index(Request $request)
     {
         $estoques = Estoques::all();
+        //$estoques = DB::select('SELECT * FROM estoques');
+        //dd($estoques);
         $mensagemSucesso = $request->session()->get('mensagem.sucesso');
         return view('estoques.index')->with('estoques', $estoques)->with('mensagemSucesso', $mensagemSucesso);
     }

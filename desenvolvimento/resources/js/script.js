@@ -80,7 +80,7 @@ document.addEventListener("DOMContentLoaded", function () {
             })
                 .then(response => response.json())
                 .then(data => {
-                    // Lógica para lidar com a resposta do servidor, se necessário
+                    window.location.href = '/estoque';
                 })
                 .catch(error => {
                     console.error('Erro ao enviar os dados do carrinho:', error);

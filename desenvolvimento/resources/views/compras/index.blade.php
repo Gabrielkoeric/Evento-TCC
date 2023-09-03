@@ -15,9 +15,9 @@
                         <div>R$: {{ $estoque->valor_venda }}</div>
                         <div class="container mt-5">
                             <div class="input-group">
-                                <button class="btn btn-outline-secondary decrease" data-estoque-id="{{ $estoque->cod_produto_estoque }}">-</button>
+                                <button class="btn btn-outline-secondary decrease" data-estoque-id="{{ $estoque->id_produto_estoque }}">-</button>
                                 <input type="text" class="form-control text-center number" value="0" readonly>
-                                <button class="btn btn-outline-secondary increase" data-estoque-id="{{ $estoque->cod_produto_estoque }}">+</button>
+                                <button class="btn btn-outline-secondary increase" data-estoque-id="{{ $estoque->id_produto_estoque }}">+</button>
                             </div>
                         </div>
                         <div class="valor-venda" data-valorvenda="{{ $estoque->valor_venda }}"></div>

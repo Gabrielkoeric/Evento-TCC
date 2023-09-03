@@ -14,7 +14,7 @@ return new class extends Migration
     public function up()
     {
         Schema::create('estoques', function (Blueprint $table) {
-            $table->id('cod_produto_estoque');
+            $table->id('id_produto_estoque');
             $table->string('nome');
             $table->integer('quantidade_inicial');
             $table->integer('quantidade_atual');
