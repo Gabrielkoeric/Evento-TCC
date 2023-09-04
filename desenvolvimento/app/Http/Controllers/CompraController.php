@@ -94,8 +94,8 @@ class CompraController extends Controller
             }
         }
         //return redirect('https://developer.modetc.net.br');
-        //return redirect('/checkout')->with('teste', $pagamento);
-        return redirect()->away('https://www.google.com');
+        return redirect('/checkout')->with('pagamnto', $pagamento);
+        //return redirect()->away('https://www.google.com');
     }
 
     /**

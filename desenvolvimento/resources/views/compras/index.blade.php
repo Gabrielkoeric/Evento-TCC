@@ -30,7 +30,7 @@
     <footer>
         <div id="total">Total: R$ 0.00</div>
         <button type="submit" class="btn btn-primary">Finalizar Pedido</button>
-        <a href="{{route('compra.store')}}" class="btn btn-primary">teste</a>
+
     </footer>
     <script>
         window.compraStoreRoute = '{{ route("compra.store") }}';
