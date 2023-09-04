@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\CompraController;
 use App\Http\Controllers\EstoqueController;
+use App\Http\Controllers\MercadoPagoController;
 use App\Http\Controllers\PedidosController;
 use App\Http\Controllers\UsuarioController;
 use App\Http\Controllers\HomeController;
@@ -35,11 +36,15 @@ Route::resource('/usuario', UsuarioController::class)->middleware(Autenticador::
 //Produtos
 Route::resource('/estoque', EstoqueController::class)->middleware(Autenticador::class);
 //compra
-Route::resource('/compra', CompraController::class)/*->middleware(Autenticador::class)*/;
+Route::resource('/compra', CompraController::class)->middleware(Autenticador::class);
 //vendas
-Route::resource('/vendas', VendasController::class)/*->middleware(Autenticador::class)*/;
+Route::resource('/vendas', VendasController::class)->middleware(Autenticador::class);
 //pedidos
 Route::resource('/pedidos', PedidosController::class)->middleware(Autenticador::class);
+
+Route::get('/checkout', [MercadoPagoController::class, 'iniciarPagamento'])->name('checkout');
+Route::post('/webhook', [MercadoPagoController::class, 'webhook'])->name('webhook');
+
 
 //Route::get('login/google', "SocialiteController@redirectToProvider");
 //Route::get('login/google/callback', 'SocialiteController@handleProviderCalback');

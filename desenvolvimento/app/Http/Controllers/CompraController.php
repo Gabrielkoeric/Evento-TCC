@@ -72,6 +72,11 @@ class CompraController extends Controller
         ];
         $idInserido = DB::table('compras')->insertGetId($dados);
 
+        $pagamento = [
+            'id' => $idInserido,
+            'valor' => $valor
+        ];
+
         // Verifique se os arrays têm o mesmo tamanho (mesmo número de produtos)
         if (count($id_estoque) == count($quantidadeInicial)) {
             for ($i = 0; $i < count($id_estoque); $i++) {
@@ -88,7 +93,9 @@ class CompraController extends Controller
 
             }
         }
-        return redirect('/home')->with('mensagem.sucesso', 'Produto inserido com sucesso!');
+        //return redirect('https://developer.modetc.net.br');
+        //return redirect('/checkout')->with('teste', $pagamento);
+        return redirect()->away('https://www.google.com');
     }
 
     /**
