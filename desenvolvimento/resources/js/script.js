@@ -1,3 +1,4 @@
+
 document.addEventListener("DOMContentLoaded", function () {
     const increaseButtons = document.querySelectorAll('.increase');
     const decreaseButtons = document.querySelectorAll('.decrease');
@@ -83,7 +84,8 @@ document.addEventListener("DOMContentLoaded", function () {
                     window.location.href = '/estoque';
                 })
                 .catch(error => {
-                    console.error('Erro ao enviar os dados do carrinho:', error);
+                    //console.error('Erro ao enviar os dados do carrinho:', error);
+                    window.location.href = '/checkout';
                 });
         }
     });

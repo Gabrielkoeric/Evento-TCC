@@ -89,7 +89,8 @@ document.addEventListener("DOMContentLoaded", function () {
       }).then(function (data) {
         window.location.href = '/estoque';
       })["catch"](function (error) {
-        console.error('Erro ao enviar os dados do carrinho:', error);
+        //console.error('Erro ao enviar os dados do carrinho:', error);
+        window.location.href = '/checkout';
       });
     }
   });

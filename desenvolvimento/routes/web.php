@@ -4,6 +4,7 @@ use App\Http\Controllers\CompraController;
 use App\Http\Controllers\EstoqueController;
 use App\Http\Controllers\MercadoPagoController;
 use App\Http\Controllers\PedidosController;
+use App\Http\Controllers\ProdutoController;
 use App\Http\Controllers\UsuarioController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\VendasController;
@@ -41,8 +42,10 @@ Route::resource('/compra', CompraController::class)->middleware(Autenticador::cl
 Route::resource('/vendas', VendasController::class)->middleware(Autenticador::class);
 //pedidos
 Route::resource('/pedidos', PedidosController::class)->middleware(Autenticador::class);
+//produtos
+Route::resource('produtos', ProdutoController::class)->middleware(Autenticador::class);
 
-Route::get('/checkout', [MercadoPagoController::class, 'iniciarPagamento'])->name('checkout');
+Route::get('/checkout', [MercadoPagoController::class, 'iniciarPagamento'])->name('checkout')->middleware(Autenticador::class);
 Route::post('/webhook', [MercadoPagoController::class, 'webhook'])->name('webhook');
 
 

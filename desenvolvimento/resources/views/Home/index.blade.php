@@ -74,5 +74,20 @@
                 </div>
             </div>
         </a>
+
+        <a href="{{route('produtos.index')}}" class="text-decoration-none">
+            <div class="card d-flex flex-column justify-content-center align-items-center p-2" style="width: 18rem;">
+                <img class="card-img-top" src="{{ asset('storage/home/produtos.png') }}" alt="Imagem de capa do card" style="max-width: 50px; height: auto">
+                <div class="card-body">
+                    <h5
+                        href="{{route('produtos.index')}}"
+                        class="card-title"
+                        style="color: #495057"
+                    >
+                        Produtos
+                    </h5>
+                </div>
+            </div>
+        </a>
     </div>
 </x-layout>
