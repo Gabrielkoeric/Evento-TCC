@@ -8,7 +8,7 @@ use Illuminate\Mail\Mailable;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Support\Facades\Auth;
 
-class NovoUsuario extends Mailable
+class CompraRealizada extends Mailable
 {
     use Queueable, SerializesModels;
 
@@ -18,10 +18,14 @@ class NovoUsuario extends Mailable
      * @return void
      */
     public function __construct(
-        public string $nome )
+        public string $valor,
+        public string $status,
+        public string $link)
     {
-        $this->nome = Auth::user()->nome_completo;
-        $this->subject = "Boas Vindas";
+        $this->valor = $valor;
+        $this->status = $status;
+        $this->link = $link;
+        $this->subject = "Status de Compra";
     }
 
     /**
@@ -31,6 +35,6 @@ class NovoUsuario extends Mailable
      */
     public function build()
     {
-        return $this->markdown('email.usuario-novo');
+        return $this->markdown('email.compra_realizada');
     }
 }

@@ -1,7 +1,6 @@
 <x-layout title="Compra">
     <a href="{{route('home.index')}}" class="btn btn-dark my-3 pr">Home</a>
 
-
     <form method="post" action="{{ route('compra.store') }}">
         @csrf
         <div>

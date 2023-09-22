@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 
 class ProdutoController extends Controller
 {
@@ -11,9 +13,35 @@ class ProdutoController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        //
+        $usuario = Auth::user()->id;
+       /* $sqls = DB::table('compras_estoque as ce')
+            ->join('compras as c', 'ce.id_compra', '=', 'c.id_compra')
+            ->join('estoques as e', 'ce.id_produto_estoque', '=', 'e.id_produto_estoque')
+            ->where('c.id', $usuario)
+            ->where('c.status', 'concluido')
+            ->select('e.nome', DB::raw('SUM(ce.quantidade_restante) as quantidade_total_restante'), DB::raw('MAX(e.imagemProduto) as imagemProduto'))
+            ->groupBy('e.nome')
+            ->get();*/
+        $sqls = DB::table('compras_estoque as ce')
+            ->join('compras as c', 'ce.id_compra', '=', 'c.id_compra')
+            ->join('estoques as e', 'ce.id_produto_estoque', '=', 'e.id_produto_estoque')
+            ->where('c.id', $usuario)
+            ->where('c.status', 'concluido')
+            ->select(
+                'e.id_produto_estoque',
+                'e.nome',
+                DB::raw('SUM(ce.quantidade_restante) as quantidade_total_restante'),
+                DB::raw('MAX(e.imagemProduto) as imagemProduto')
+            )
+            ->groupBy('e.id_produto_estoque', 'e.nome')
+            ->get();
+
+
+        //dd($sqls);
+
+        return view('produtos.index')->with('sqls', $sqls);
     }
 
     /**
@@ -34,7 +62,8 @@ class ProdutoController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $quantidades = $request->input('quantidade');
+        dd($quantidades);
     }
 
     /**

@@ -2,21 +2,19 @@
 
 namespace App\Http\Controllers;
 
-use App\Mail\CompraRealizada;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Log;
-use Illuminate\Support\Facades\Mail;
 
 class MercadoPagoController extends Controller
 {
     public function iniciarPagamento(Request $request)
     {
-        //dd($request);
+        dd($request);
+        //dd ($request->session()->get('pagamnto')['id']);
         $id = $request->session()->get('pagamnto')['id'];
+
         $valor = $request->session()->get('pagamnto')['valor'];
-        $status = "Aguardando Pagamento";
         //dd("id é $id e valor é $valor");
 
         $publicKey = config('services.mercado_pago.public_key');
@@ -42,18 +40,10 @@ class MercadoPagoController extends Controller
         ];
         $response = Http::post($url, $data);
         //dd($response);
-        $responseData = $response->json();
-        //email
-        $link = $responseData['init_point'];
-        $usuario = Auth::user();
-        $status = "concluido";
-        $email = new CompraRealizada($valor, $status, $link);
-        Mail::to($usuario->email)->queue($email);
 
 // Verifique se a resposta foi bem-sucedida
         if ($response->status() == 201) {
             $responseData = $response->json();
-
             return redirect($responseData['init_point']);
             //dd($responseData);
         } else {
@@ -90,9 +80,9 @@ class MercadoPagoController extends Controller
         $signature = $request->header('X-Signature');
 
 // Registre o cabeçalho de autorização nos logs para depuração
-      //  Log::info('x-signature: ' . $signature);
-      //  Log::info('Cabeçalho de Autorização:', ['Authorization' => $authorizationHeader]);
-      //  Log::info('accessToken:', ['accessToken' => $accessToken]);
+        Log::info('x-signature: ' . $signature);
+        Log::info('Cabeçalho de Autorização:', ['Authorization' => $authorizationHeader]);
+        Log::info('accessToken:', ['accessToken' => $accessToken]);
 
         // Verifique se o Access Token na requisição corresponde ao seu Access Token
         if ($request->header('Authorization') !== 'Bearer ' . $accessToken) {

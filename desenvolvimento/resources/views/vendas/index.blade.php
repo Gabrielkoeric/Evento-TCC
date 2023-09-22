@@ -6,7 +6,7 @@
                 Compra número: {{ $compra->id_compra }}
             </div>
             <div class="card-body">
-                <h5 class="card-title">Status: {{ $compra->status }}</h5>
+                <h5 class="card-title">Status de Pagamento: {{ $compra->status }}</h5>
                 <ul class="list-group">
                     @foreach ($compras->where('id_compra', $compra->id_compra) as $produto)
                         <li class="list-group-item">{{ $produto->nome_produto }}</li>

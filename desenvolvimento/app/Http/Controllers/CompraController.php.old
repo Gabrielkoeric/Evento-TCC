@@ -2,13 +2,12 @@
 
 namespace App\Http\Controllers;
 
-use App\Mail\CompraRealizada;
 use App\Models\Estoques;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Mail;
-use Laravel\Socialite\Facades\Socialite;
+use Illuminate\Support\Facades\Http;
+use Illuminate\Support\Facades\Log;
 use mysql_xdevapi\Table;
 
 class CompraController extends Controller
@@ -62,7 +61,6 @@ class CompraController extends Controller
         $quantidade = $request->input('quantidade');
         $estoque_id = $request->input('estoque_id');
         $valor = 0;
-        $status = "Aguardando pagamento";
 
         for ($i = 0; $i < count($estoque_id); $i++) {
             $valorProduto = DB::table('estoques')
@@ -70,7 +68,7 @@ class CompraController extends Controller
                 ->value('valor_venda');
             $valor = $valor + ($valorProduto * $quantidade[$i]);
 
-            echo ("valor da compra é: $valor - ");
+            //echo ("valor da compra é: $valor - ");
         }
 
         $dados = [
@@ -78,17 +76,19 @@ class CompraController extends Controller
             'valor' => $valor,
             'status' => 'aguardando pagamento'
         ];
+
+        //Log::info('chama a rota do qrcode');
+        //$response = Http::post(route('qrcode.store'), ['dados' => $dados]);
+
+
+        //dd("$response");
+
         $idInserido = DB::table('compras')->insertGetId($dados);
 
         $pagamento = [
             'id' => $idInserido,
             'valor' => $valor
         ];
-
-        //email
-       /* $usuario = Auth::user();
-        $email = new CompraRealizada($valor, $status);
-        Mail::to($usuario->email)->queue($email);*/
 
         // Verifique se os arrays têm o mesmo tamanho (mesmo número de produtos)
         if (count($estoque_id) == count($quantidade)) {
@@ -103,14 +103,11 @@ class CompraController extends Controller
                     'quantidade_restante' => $quantidade[$i]
                 ];
                 DB::table('compras_estoque')->insert($dados2);
-
             }
         }
-
-
-        //return redirect('https://developer.modetc.net.br');
+        //$response = Http::post('/qrcode', ['dados' => $dados]);
+        //dd ("$pagamento");
         return redirect('/checkout')->with('pagamnto', $pagamento);
-        //return redirect()->away('https://www.google.com');
     }
 
     /**

@@ -44,6 +44,12 @@ return [
             'throw' => false,
         ],
 
+        'private' => [
+            'driver' => 'local',
+            'root' => storage_path('app/private'), // Pasta não pública
+            'visibility' => 'private', // Esta configuração é importante para definir a visibilidade como privada
+        ],
+
         's3' => [
             'driver' => 's3',
             'key' => env('AWS_ACCESS_KEY_ID'),
