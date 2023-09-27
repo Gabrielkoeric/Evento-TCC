@@ -10,6 +10,7 @@
             <table class="table table-striped">
                 <thead>
                 <tr>
+                    <th scope="col">Imagem</th>
                     <th scope="col">Produto</th>
                     <th scope="col">Qtd. Inicial</th>
                     <th scope="col">Qtd. Atual</th>

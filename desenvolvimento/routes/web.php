@@ -29,7 +29,7 @@ Route::get('/', [HomeController::class, 'index'])->name('home.index')->secure();
 //Route::get('/', function () {
 //    return view('welcome');
 //});
-
+Route::get('/produto/{hash}', [ProdutoController::class, 'processaRetirada']);
 //home
 Route::get('/home', [HomeController::class, 'index'])->name('home.index')->secure();
 
@@ -44,7 +44,15 @@ Route::resource('/vendas', VendasController::class)->middleware(Autenticador::cl
 //pedidos
 Route::resource('/pedidos', PedidosController::class)->middleware(Autenticador::class);
 //produtos
+Route::get('/produtos/{hash}', [ProdutoController::class, 'processaRetirada'])->middleware(Autenticador::class);
 Route::resource('produtos', ProdutoController::class)->middleware(Autenticador::class);
+
+
+
+Route::get('/teste/{hash}', 'TesteController@processRetirada')->name('retirada.process');
+
+
+
 //Gerar qrcode
 Route::resource('qrcode', QRCodeController::class)/*->middleware(Autenticador::class)*/;
 //Route::get('/qrcode', [QRCodeController::class, 'index'])->name('qrcode');

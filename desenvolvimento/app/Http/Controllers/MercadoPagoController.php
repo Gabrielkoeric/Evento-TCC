@@ -15,6 +15,7 @@ class MercadoPagoController extends Controller
     {
         //dd($request);
         $id = $request->session()->get('pagamnto')['id'];
+        //Log::info('o id external esta definido corretamente', ['id' => $id]);
         $valor = $request->session()->get('pagamnto')['valor'];
         $status = "Aguardando Pagamento";
         //dd("id é $id e valor é $valor");
@@ -24,10 +25,12 @@ class MercadoPagoController extends Controller
 
         $url = "https://api.mercadopago.com/checkout/preferences?access_token={$accessToken}";
         //dd($url);
-
+        //$id = 15;
         $data = [
             "notification_url" => "https://developer.modetc.net.br/webhook",
             "external_reference" => "$id",
+            "success_url" => "https://developer.modetc.net.br",
+            "failure_url" => "https://developer.modetc.net.br",
             "items" => [
                 [
                     "id" => "$id",
@@ -41,8 +44,10 @@ class MercadoPagoController extends Controller
             ]
         ];
         $response = Http::post($url, $data);
+        Log::info('Response', ['response' => $response]);
         //dd($response);
         $responseData = $response->json();
+        Log::info('Response data', ['responseData' => $responseData]);
         //email
         $link = $responseData['init_point'];
         $usuario = Auth::user();
@@ -68,78 +73,89 @@ class MercadoPagoController extends Controller
 
     public function webhook(Request $request)
     {
-
-        $requestJson = json_encode([
-            'headers' => $request->headers->all(),
-            'content' => $request->getContent(),
-            'query' => $request->query->all(),
-            'request' => $request->request->all(),
-            'server' => $request->server->all(),
-            'cookies' => $request->cookies->all(),
-            'files' => $request->files->all(),
-        ], JSON_PRETTY_PRINT);
-
-        // Registre a requisição completa nos logs
-        //Log::info('Requisição completa:', ['request' => $requestJson]);
-
-        // Chave de acesso (access token) do Mercado Pago
-        $accessToken = config('services.mercado_pago.access_token');
-
-        $authorizationHeader = $request->header('Authorization');
-
-        $signature = $request->header('X-Signature');
-
-// Registre o cabeçalho de autorização nos logs para depuração
-      //  Log::info('x-signature: ' . $signature);
-      //  Log::info('Cabeçalho de Autorização:', ['Authorization' => $authorizationHeader]);
-      //  Log::info('accessToken:', ['accessToken' => $accessToken]);
-
-        // Verifique se o Access Token na requisição corresponde ao seu Access Token
-        if ($request->header('Authorization') !== 'Bearer ' . $accessToken) {
-            return response()->json(['error' => 'Unauthorized'], 401);
-        }
-
-
-        // Obtenha os dados da notificação
         $notificationData = $request->all();
+        //$externalReference = $notificationData['external_reference'];
+        //Log::info('external reference', ['externalReference' => $externalReference]);
+        $data = $request->all();
 
-        // Verifique se o campo 'id' está presente nos dados da notificação
-        if (isset($notificationData['id'])) {
-            $orderId = $notificationData['id'];
-            Log::info('Compra identificada. ID da compra:', ['order_id' => $orderId]);
-        } else {
-            Log::info('Compra não identificada. Dados da notificação:', $notificationData);
-        }
+        // Grave os dados no arquivo de log
+        Log::info('Recebido webhook do Mercado Pago', ['data' => $data]);
+
+        // Lembre-se de sempre retornar uma resposta HTTP 200 para o Mercado Pago
+        return response('OK', 200);
+
+        /* $requestJson = json_encode([
+             'headers' => $request->headers->all(),
+             'content' => $request->getContent(),
+             'query' => $request->query->all(),
+             'request' => $request->request->all(),
+             'server' => $request->server->all(),
+             'cookies' => $request->cookies->all(),
+             'files' => $request->files->all(),
+         ], JSON_PRETTY_PRINT);
+
+         // Registre a requisição completa nos logs
+         //Log::info('Requisição completa:', ['request' => $requestJson]);
+
+         // Chave de acesso (access token) do Mercado Pago
+         $accessToken = config('services.mercado_pago.access_token');
+
+         $authorizationHeader = $request->header('Authorization');
+
+         $signature = $request->header('X-Signature');
+
+ // Registre o cabeçalho de autorização nos logs para depuração
+       //  Log::info('x-signature: ' . $signature);
+       //  Log::info('Cabeçalho de Autorização:', ['Authorization' => $authorizationHeader]);
+       //  Log::info('accessToken:', ['accessToken' => $accessToken]);
+
+         // Verifique se o Access Token na requisição corresponde ao seu Access Token
+         if ($request->header('Authorization') !== 'Bearer ' . $accessToken) {
+             return response()->json(['error' => 'Unauthorized'], 401);
+         }
 
 
-        // Registre os dados da notificação nos logs
-        Log::info('Notificação recebida:', $notificationData);
+         // Obtenha os dados da notificação
+         $notificationData = $request->all();
 
-        // Agora você pode prosseguir com o processamento dos dados da notificação
+         // Verifique se o campo 'id' está presente nos dados da notificação
+         if (isset($notificationData['id'])) {
+             $orderId = $notificationData['id'];
+             Log::info('Compra identificada. ID da compra:', ['order_id' => $orderId]);
+         } else {
+             Log::info('Compra não identificada. Dados da notificação:', $notificationData);
+         }
 
-        // Responda à notificação, se necessário
-        return response()->json(['status' => 'ok']);
+
+         // Registre os dados da notificação nos logs
+         Log::info('Notificação recebida:', $notificationData);
+
+         // Agora você pode prosseguir com o processamento dos dados da notificação
+
+         // Responda à notificação, se necessário
+         return response()->json(['status' => 'ok']);
+     }
+
+ /*    public function webhook(Request $request)
+     {
+
+         $accessToken = config('services.mercado_pago.access_token');
+
+         // Verifique se o Access Token na requisição corresponde ao seu Access Token
+         if ($request->header('Authorization') !== 'Bearer ' . $accessToken) {
+             $notificationData = $request->all();
+             Log::info('Notificação recebida:', $notificationData);
+             return response()->json(['error' => 'Unauthorized'], 401);
+         }
+
+         $notificationData = $request->all();
+         Log::info('Notificação recebida:', $notificationData);
+         // Agora você pode prosseguir com o processamento dos dados da notificação
+
+         // Responda à notificação, se necessário
+         return response()->json(['status' => 'ok']);
+     }*/
     }
-
-/*    public function webhook(Request $request)
-    {
-
-        $accessToken = config('services.mercado_pago.access_token');
-
-        // Verifique se o Access Token na requisição corresponde ao seu Access Token
-        if ($request->header('Authorization') !== 'Bearer ' . $accessToken) {
-            $notificationData = $request->all();
-            Log::info('Notificação recebida:', $notificationData);
-            return response()->json(['error' => 'Unauthorized'], 401);
-        }
-
-        $notificationData = $request->all();
-        Log::info('Notificação recebida:', $notificationData);
-        // Agora você pode prosseguir com o processamento dos dados da notificação
-
-        // Responda à notificação, se necessário
-        return response()->json(['status' => 'ok']);
-    }*/
 }
 
 

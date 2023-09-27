@@ -13,17 +13,12 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('compras', function (Blueprint $table) {
-            $table->id('id_compra');
-            $table->unsignedBigInteger('id');
-            $table->decimal('valor', 10, 2);
-            $table->string('status');
+        Schema::create('retiradas', function (Blueprint $table) {
+            $table->id('id_retirada')->autoIncrement();
+            $table->string('hash');
+            $table->boolean('validacao')->default(true);
             $table->timestamps();
-
-            $table->foreign('id')->references('id')->on('usuarios');
         });
-
-
     }
 
     /**
@@ -33,6 +28,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('compras');
+        Schema::dropIfExists('retiradas');
     }
 };

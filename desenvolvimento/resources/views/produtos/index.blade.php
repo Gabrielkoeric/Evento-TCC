@@ -16,18 +16,20 @@
             @foreach ($sqls as $sql)
                 <tr>
                     <td><img src="{{ asset('storage/' . $sql->imagemProduto) }}" alt="imagem" class="img-fluid"></td>
-                    <td>{{ $sql->nome }}</td>
-                    <td>{{ $sql->quantidade_total_restante }}</td>
+                    <td>{{ $sql->nome_produto }}</td>
+                    <td>{{ $sql->quantidade }}</td>
                     <td>
                         <div class="input-group">
                             <div class="input-group-prepend">
                                 <button type="button" class="btn btn-outline-secondary decrease">-</button>
                             </div>
-                            <input type="text" class="form-control text-center number" name="quantidade[{{ $sql->id_produto_estoque }}]" value="0" readonly>
+                            <input type="text" class="form-control text-center number" name="quantidade[{{ $sql->id_produtos_disponiveis }}]" value="0" readonly>
                             <div class="input-group-append">
                                 <button type="button" class="btn btn-outline-secondary increase">+</button>
                             </div>
                         </div>
+                        <input type="hidden" name="nome[{{ $sql->id_produtos_disponiveis }}]" value="{{ $sql->nome_produto }}">
+
                     </td>
                 </tr>
             @endforeach

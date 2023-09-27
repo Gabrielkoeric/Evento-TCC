@@ -84,7 +84,7 @@
                         class="card-title"
                         style="color: #495057"
                     >
-                        Produtos
+                        Produtos Retirada
                     </h5>
                 </div>
             </div>

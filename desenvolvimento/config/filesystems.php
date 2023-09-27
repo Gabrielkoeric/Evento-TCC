@@ -46,8 +46,8 @@ return [
 
         'private' => [
             'driver' => 'local',
-            'root' => storage_path('app/private'), // Pasta não pública
-            'visibility' => 'private', // Esta configuração é importante para definir a visibilidade como privada
+            'root' => storage_path('app/private'),
+            'visibility' => 'private',
         ],
 
         's3' => [

@@ -63,14 +63,15 @@ class CompraController extends Controller
         $estoque_id = $request->input('estoque_id');
         $valor = 0;
         $status = "Aguardando pagamento";
+        if (count($estoque_id) == count($quantidade)) {
+            for ($i = 0; $i < count($estoque_id); $i++) {
+                $valorProduto = DB::table('estoques')
+                    ->where('id_produto_estoque', $estoque_id[$i])
+                    ->value('valor_venda');
+                $valor = $valor + ($valorProduto * $quantidade[$i]);
 
-        for ($i = 0; $i < count($estoque_id); $i++) {
-            $valorProduto = DB::table('estoques')
-                ->where('id_produto_estoque', $estoque_id[$i])
-                ->value('valor_venda');
-            $valor = $valor + ($valorProduto * $quantidade[$i]);
-
-            echo ("valor da compra é: $valor - ");
+                echo("valor da compra é: $valor - ");
+            }
         }
 
         $dados = [
