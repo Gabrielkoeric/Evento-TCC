@@ -8,6 +8,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Str;
 use Laravel\Socialite\Facades\Socialite;
 use mysql_xdevapi\Table;
 
@@ -62,6 +63,7 @@ class CompraController extends Controller
         $quantidade = $request->input('quantidade');
         $estoque_id = $request->input('estoque_id');
         $valor = 0;
+        $hash = Str::random(35);
         $status = "Aguardando pagamento";
         if (count($estoque_id) == count($quantidade)) {
             for ($i = 0; $i < count($estoque_id); $i++) {
@@ -77,13 +79,15 @@ class CompraController extends Controller
         $dados = [
             'id' => $usuario,
             'valor' => $valor,
-            'status' => 'aguardando pagamento'
+            'status' => 'aguardando pagamento',
+            'hash' => $hash
         ];
         $idInserido = DB::table('compras')->insertGetId($dados);
 
         $pagamento = [
             'id' => $idInserido,
-            'valor' => $valor
+            'valor' => $valor,
+            'hash' => $hash
         ];
 
         //email
@@ -110,8 +114,10 @@ class CompraController extends Controller
 
 
         //return redirect('https://developer.modetc.net.br');
-        return redirect('/checkout')->with('pagamnto', $pagamento);
+        //return redirect('/checkout')->with('pagamnto', $pagamento);
+        //return redirect('/payment')->with('pagamnto', $pagamento);
         //return redirect()->away('https://www.google.com');
+        return redirect('/payment')->cookie('id', $idInserido)->cookie('valor', $valor)->cookie('hash', $hash);
     }
 
     /**

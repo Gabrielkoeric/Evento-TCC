@@ -2,6 +2,7 @@
 
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Schema;
 
 return new class extends Migration
@@ -18,10 +19,35 @@ return new class extends Migration
             $table->unsignedBigInteger('id');
             $table->decimal('valor', 10, 2);
             $table->string('status');
+            $table->string('hash');
             $table->timestamps();
 
             $table->foreign('id')->references('id')->on('usuarios');
         });
+        DB::unprepared('
+            CREATE TRIGGER tr_compra_approved AFTER UPDATE ON compras FOR EACH ROW
+            BEGIN
+                IF NEW.status = "approved" AND OLD.status <> "approved" THEN
+                    INSERT INTO produtos_disponiveis (id, id_produto_estoque, quantidade)
+                    SELECT NEW.id, ce.id_produto_estoque, ce.quantidade_compra
+                    FROM compras_estoque ce
+                    WHERE ce.id_compra = NEW.id_compra
+                    ON DUPLICATE KEY UPDATE quantidade = quantidade + VALUES(quantidade);
+                END IF;
+            END;
+        ');
+/*
+        DB::unprepared('
+            CREATE TRIGGER tr_compra_approved AFTER UPDATE ON compras FOR EACH ROW
+            BEGIN
+                IF NEW.status = "approved" AND OLD.status <> "approved" THEN
+                    INSERT INTO produtos_disponiveis (id, id_produto_estoque, quantidade)
+                    SELECT NEW.id, ce.id_produto_estoque, ce.quantidade_compra
+                    FROM compras_estoque ce
+                    WHERE ce.id_compra = NEW.id_compra;
+                END IF;
+            END;
+        ');*/
 
 
     }

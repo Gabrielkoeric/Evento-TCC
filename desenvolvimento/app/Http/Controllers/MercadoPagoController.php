@@ -74,6 +74,24 @@ class MercadoPagoController extends Controller
     public function webhook(Request $request)
     {
         $notificationData = $request->all();
+
+        // Acesse o campo external_reference para obter o identificador único da compra
+       // $externalReference = $notificationData['data']['external_reference'];
+
+        // Use o $externalReference para identificar a compra no seu sistema e atualizar o status, se necessário
+       // $compra = Compra::where('identificador_unico', $externalReference)->first();
+
+      //  if ($compra) {
+            // Faça o processamento necessário e atualize o status da compra
+            // ...
+       // }
+        Log::info('Recebido webhook do Mercado Pago', ['data' => $notificationData]);
+       // Log::info('external reference', $externalReference);
+        return response('OK', 200);
+
+        /*
+         * funcionando por ultimo
+        $notificationData = $request->all();
         //$externalReference = $notificationData['external_reference'];
         //Log::info('external reference', ['externalReference' => $externalReference]);
         $data = $request->all();
@@ -84,6 +102,8 @@ class MercadoPagoController extends Controller
         // Lembre-se de sempre retornar uma resposta HTTP 200 para o Mercado Pago
         return response('OK', 200);
 
+
+        */
         /* $requestJson = json_encode([
              'headers' => $request->headers->all(),
              'content' => $request->getContent(),

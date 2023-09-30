@@ -10,6 +10,7 @@ use Endroid\QrCode\Writer\PngWriter;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 use Symfony\Component\HttpFoundation\Response;
@@ -24,25 +25,6 @@ class ProdutoController extends Controller
     public function index(Request $request)
     {
         $usuario = Auth::user()->id;
-        /*$sqls = DB::table('compras_estoque as ce')
-            ->join('compras as c', 'ce.id_compra', '=', 'c.id_compra')
-            ->join('estoques as e', 'ce.id_produto_estoque', '=', 'e.id_produto_estoque')
-            ->where('c.id', $usuario)
-            ->where('c.status', 'concluido')
-            ->select(
-                'e.id_produto_estoque',
-                'e.nome',
-                DB::raw('SUM(ce.quantidade_restante) as quantidade_total_restante'),
-                DB::raw('MAX(e.imagemProduto) as imagemProduto')
-            )
-            ->groupBy('e.id_produto_estoque', 'e.nome')
-            ->get();*/
-       /* $sqls = DB::table('produtos_disponiveis as pd')
-            ->select('pd.id_produtos_disponiveis', 'e.id_produto_estoque', 'e.nome as nome_produto', 'pd.quantidade', 'e.imagemProduto')
-            ->join('estoques as e', 'pd.id_produto_estoque', '=', 'e.id_produto_estoque')
-            ->join('usuarios as u', 'pd.id', '=', 'u.id')
-            ->where('u.id', '=', $usuario)
-            ->get();*/
         $sqls = DB::table('produtos_disponiveis as pd')
             ->select('pd.id_produtos_disponiveis', 'e.id_produto_estoque', 'e.nome as nome_produto', 'pd.quantidade', 'e.imagemProduto')
             ->join('estoques as e', 'pd.id_produto_estoque', '=', 'e.id_produto_estoque')
@@ -50,10 +32,6 @@ class ProdutoController extends Controller
             ->where('u.id', '=', $usuario)
             ->where('pd.quantidade', '>', 0) // Adiciona esta linha para filtrar a quantidade maior que zero
             ->get();
-
-
-
-        //dd($sqls);
 
         return view('produtos.index')->with('sqls', $sqls);
     }
@@ -83,12 +61,26 @@ class ProdutoController extends Controller
 
         // Verificar se a hash existe no banco de dados
         if ($retiradaInfo) {
+            $dados = DB::table('estoques AS e')
+                ->select('e.nome AS nome_do_estoque', 'pdr.quantidade AS quantidade_retirada')
+                ->join('produtos_disponiveis AS pd', 'e.id_produto_estoque', '=', 'pd.id_produto_estoque')
+                ->join('produtos_disponiveis_retiradas AS pdr', 'pd.id_produtos_disponiveis', '=', 'pdr.id_produtos_disponiveis')
+                ->join('retiradas AS r', 'pdr.id_retirada', '=', 'r.id_retirada')
+                ->where('r.hash', "$hash")
+                ->get();
 
-            echo ("teste");
-            //return redirect($url);
+            return view('produtos.entrega')->with('dados', $dados)->with('hash', $hash);
         } else {
             abort(404);
         }
+    }
+
+    public function concluido(Request $request){
+        $hash = $request->query('hash');
+        DB::table('retiradas')
+            ->where('hash', $hash)
+            ->update(['validacao' => false]);
+        return to_route('home.index');
     }
 
 
@@ -96,7 +88,8 @@ class ProdutoController extends Controller
     {
         $dadosRequisicao = $request;
         $hash = Str::random(35);
-        $uri = "https://developer.modetc.net/produtos/$hash";
+        $url = env('APP_URL');
+        $uri = "$url/produtos/$hash";
         $quantidades = $request->input('quantidade');
         $nomes = $request->input('nome');
         $id_produto_estoque = $request->input('id_produtos_disponiveis');
@@ -105,7 +98,6 @@ class ProdutoController extends Controller
             'hash' => $hash
         ];
     //}
-
 
         $idRetirada = DB::table('retiradas')->insertGetId($dados);
 
@@ -120,29 +112,7 @@ class ProdutoController extends Controller
                 DB::table('produtos_disponiveis_retiradas')->insertGetId($dados2);
             }
         }
-
-
-
-
-
-/*
-
-
-            $dados = []; // Array para armazenar os dados personalizados
-
-            foreach ($quantidades as $id_produto_estoque => $quantidade) {
-                $nome = $nomes[$id_produto_estoque];
-
-                // Construir um array com as informações desejadas
-                $dados[] = [
-                    'id_produto_estoque' => $id_produto_estoque,
-                    'nome' => $nome,
-                    'quantidade' => $quantidade,
-                ];
-            }
-        $dataJson = json_encode($dados);*/
-
-
+        //gerar o qrcode
         $result = Builder::create()
             ->writer(new PngWriter())
             ->data($uri)
@@ -156,21 +126,7 @@ class ProdutoController extends Controller
         $nomeArquivo = uniqid('qrcode_') . '.png';
         $caminhoArquivo = 'qrcode/' . $nomeArquivo; // Caminho do arquivo no disco 'public'
         Storage::disk('public')->put($caminhoArquivo, $qrCodeImage);
-/*
-// Crie uma resposta HTTP com o QR Code
-        $response = new Response();
-        $response->headers->set('Content-Type', $result->getMimeType());
-        $response->setContent($result->getString());
-
-// Exiba o QR Code na tela
-        $response->send();*/
-
-
-
-            // Usar dd() para mostrar os dados personalizados
-           // dd($dados);
         return view('produtos.qrcode')->with('qrcode', $caminhoArquivo);
-
     }
 
 

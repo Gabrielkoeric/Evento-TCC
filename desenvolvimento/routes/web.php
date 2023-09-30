@@ -2,7 +2,9 @@
 
 use App\Http\Controllers\CompraController;
 use App\Http\Controllers\EstoqueController;
+use App\Http\Controllers\IngressosController;
 use App\Http\Controllers\MercadoPagoController;
+use App\Http\Controllers\PagamentoController;
 use App\Http\Controllers\PedidosController;
 use App\Http\Controllers\ProdutoController;
 use App\Http\Controllers\QRCodeController;
@@ -44,12 +46,11 @@ Route::resource('/vendas', VendasController::class)->middleware(Autenticador::cl
 //pedidos
 Route::resource('/pedidos', PedidosController::class)->middleware(Autenticador::class);
 //produtos
+Route::post('/produtos/concluido', [ProdutoController::class, 'concluido'])->name('produtos.concluido');
 Route::get('/produtos/{hash}', [ProdutoController::class, 'processaRetirada'])->middleware(Autenticador::class);
 Route::resource('produtos', ProdutoController::class)->middleware(Autenticador::class);
-
-
-
-Route::get('/teste/{hash}', 'TesteController@processRetirada')->name('retirada.process');
+//ingressos
+Route::resource('ingressos', IngressosController::class)->middleware(Autenticador::class);
 
 
 
@@ -70,3 +71,11 @@ Route::get('login/logout', [SocialiteController::class, 'destroy'])->name('logou
 
 Route::get('/email_novo_usuario', function (){return new \App\Mail\NovoUsuario();});
 Route::get('/email_compra', function (){return new \App\Mail\CompraRealizada();});
+
+
+
+Route::get('/payment', [PagamentoController::class, 'createPayment'])->name('payment.create');
+Route::get('/payment/success', [PagamentoController::class, 'secesso'])->name('payment.secesso');
+Route::get('/payment/failure', [PagamentoController::class, 'flaha'])->name('payment.flaha');
+Route::get('/payment/pending', [PagamentoController::class, 'pendente'])->name('payment.pendente');
+
