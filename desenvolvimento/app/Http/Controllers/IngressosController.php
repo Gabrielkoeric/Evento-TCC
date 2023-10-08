@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Ingressos;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
@@ -76,9 +77,10 @@ class IngressosController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit(Ingressos $ingressos)
+    public function edit(Ingressos $ingresso)
     {
-        return view('usuarios.edit')->with('usuario', $usuario);
+     //dd("$ingresso");
+     return view('ingressos.edit')->with('ingresso', $ingresso);
     }
 
     /**
@@ -88,9 +90,18 @@ class IngressosController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request, $id_ingressos)
     {
-        //
+        DB::table('ingressos')
+            ->where('id_ingressos', $id_ingressos)
+            ->update([
+                'nome' => $request->nome,
+                'descricao' => $request->descricao,
+                'quantidade' => $request->quantidade,
+                'quantidade_disponivel' => $request->quantidadeDisponivel,
+                'valor' => $request->valor,
+            ]);
+        return redirect()->route('ingressos.index')->with('mensagem.sucesso', 'Ingresso Alterado com Sucesso!');
     }
 
     /**
@@ -99,8 +110,10 @@ class IngressosController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Ingressos $ingresso)
     {
-        //
+        $ingresso->delete();
+        return to_route('ingressos.index')->with('mensagem.sucesso', 'Ingresso Removido com Sucesso!');
     }
+
 }

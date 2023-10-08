@@ -18,13 +18,12 @@ class PagamentoController extends Controller
 {
     public function createPayment(Request $request)
     {
-       // $id = $request->session()->get('pagamnto')['id'];
-        //$valor = $request->session()->get('pagamnto')['valor'];
+        Log::info('vc esta no pagamento');
+        /*$id = $request->session()->get('pagamnto')['id'];
+        $valor = $request->session()->get('pagamnto')['valor'];
+        $hash = $request->session()->get('hash')['hash'];*/
         $pagamento = session('pagamento');
 
-        // Agora, você pode acessar os valores assim:
-        //$id = $pagamento['id'];
-        //$valor = $pagamento['valor'];
         $id = $request->cookie('id');
         $valor = $request->cookie('valor');
         $hash = $request->cookie('hash');

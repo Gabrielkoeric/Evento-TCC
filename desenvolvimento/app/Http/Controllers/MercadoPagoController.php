@@ -14,9 +14,9 @@ class MercadoPagoController extends Controller
     public function iniciarPagamento(Request $request)
     {
         //dd($request);
-        $id = $request->session()->get('pagamnto')['id'];
+        //$id = $request->session()->get('pagamnto')['id'];
         //Log::info('o id external esta definido corretamente', ['id' => $id]);
-        $valor = $request->session()->get('pagamnto')['valor'];
+        //$valor = $request->session()->get('pagamnto')['valor'];
         $status = "Aguardando Pagamento";
         //dd("id é $id e valor é $valor");
 

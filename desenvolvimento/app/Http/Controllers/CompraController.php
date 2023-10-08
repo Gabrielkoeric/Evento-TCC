@@ -7,6 +7,7 @@ use App\Models\Estoques;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Str;
 use Laravel\Socialite\Facades\Socialite;
@@ -72,7 +73,7 @@ class CompraController extends Controller
                     ->value('valor_venda');
                 $valor = $valor + ($valorProduto * $quantidade[$i]);
 
-                echo("valor da compra é: $valor - ");
+               // echo("valor da compra é: $valor - ");
             }
         }
 
@@ -111,12 +112,7 @@ class CompraController extends Controller
 
             }
         }
-
-
-        //return redirect('https://developer.modetc.net.br');
-        //return redirect('/checkout')->with('pagamnto', $pagamento);
-        //return redirect('/payment')->with('pagamnto', $pagamento);
-        //return redirect()->away('https://www.google.com');
+        Log::info("id $idInserido, valor $valor, hash $hash");
         return redirect('/payment')->cookie('id', $idInserido)->cookie('valor', $valor)->cookie('hash', $hash);
     }
 

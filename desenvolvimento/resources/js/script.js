@@ -85,7 +85,7 @@ document.addEventListener("DOMContentLoaded", function () {
                 })
                 .catch(error => {
                     //console.error('Erro ao enviar os dados do carrinho:', error);
-                    window.location.href = '/checkout';
+                   // window.location.href = '/checkout';
                 });
         }
     });

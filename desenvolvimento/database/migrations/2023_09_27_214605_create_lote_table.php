@@ -19,6 +19,7 @@ return new class extends Migration
             $table->integer('quantidade_lote');
             $table->integer('quantidade_lote_disponivel');
             $table->boolean('ativo');
+            $table->float('adicional_lote');
             $table->unsignedBigInteger('id_ingressos');
             $table->timestamps();
 

@@ -504,8 +504,8 @@ class ComposerStaticInit7561c492602c1bcc4db83eb4d79aa5d4
         ),
         'Doctrine\\Common\\' => 
         array (
-            0 => __DIR__ . '/..' . '/doctrine/event-manager/src',
-            1 => __DIR__ . '/..' . '/doctrine/common/src',
+            0 => __DIR__ . '/..' . '/doctrine/common/src',
+            1 => __DIR__ . '/..' . '/doctrine/event-manager/src',
         ),
         'Dflydev\\DotAccessData\\' => 
         array (
@@ -564,11 +564,14 @@ class ComposerStaticInit7561c492602c1bcc4db83eb4d79aa5d4
         'App\\Exceptions\\Handler' => __DIR__ . '/../..' . '/app/Exceptions/Handler.php',
         'App\\Http\\Controllers\\Api\\CorController' => __DIR__ . '/../..' . '/app/Http/Controllers/Api/CorController.php',
         'App\\Http\\Controllers\\CompraController' => __DIR__ . '/../..' . '/app/Http/Controllers/CompraController.php',
+        'App\\Http\\Controllers\\CompraIngressoController' => __DIR__ . '/../..' . '/app/Http/Controllers/CompraIngressoController.php',
         'App\\Http\\Controllers\\Controller' => __DIR__ . '/../..' . '/app/Http/Controllers/Controller.php',
         'App\\Http\\Controllers\\EstoqueController' => __DIR__ . '/../..' . '/app/Http/Controllers/EstoqueController.php',
         'App\\Http\\Controllers\\HomeController' => __DIR__ . '/../..' . '/app/Http/Controllers/HomeController.php',
         'App\\Http\\Controllers\\IngressosController' => __DIR__ . '/../..' . '/app/Http/Controllers/IngressosController.php',
+        'App\\Http\\Controllers\\LoteController' => __DIR__ . '/../..' . '/app/Http/Controllers/LoteController.php',
         'App\\Http\\Controllers\\MercadoPagoController' => __DIR__ . '/../..' . '/app/Http/Controllers/MercadoPagoController.php',
+        'App\\Http\\Controllers\\PagamentoController' => __DIR__ . '/../..' . '/app/Http/Controllers/PagamentoController.php',
         'App\\Http\\Controllers\\PedidosController' => __DIR__ . '/../..' . '/app/Http/Controllers/PedidosController.php',
         'App\\Http\\Controllers\\ProdutoController' => __DIR__ . '/../..' . '/app/Http/Controllers/ProdutoController.php',
         'App\\Http\\Controllers\\QRCodeController' => __DIR__ . '/../..' . '/app/Http/Controllers/QRCodeController.php',
@@ -591,6 +594,8 @@ class ComposerStaticInit7561c492602c1bcc4db83eb4d79aa5d4
         'App\\Models\\Cor' => __DIR__ . '/../..' . '/app/Models/Cor.php',
         'App\\Models\\Estoque' => __DIR__ . '/../..' . '/app/Models/Estoque.php',
         'App\\Models\\Estoques' => __DIR__ . '/../..' . '/app/Models/Estoques.php',
+        'App\\Models\\Ingressos' => __DIR__ . '/../..' . '/app/Models/Ingressos.php',
+        'App\\Models\\Lote' => __DIR__ . '/../..' . '/app/Models/Lote.php',
         'App\\Models\\Marcas' => __DIR__ . '/../..' . '/app/Models/Marcas.php',
         'App\\Models\\Modelo' => __DIR__ . '/../..' . '/app/Models/Modelo.php',
         'App\\Models\\User' => __DIR__ . '/../..' . '/app/Models/User.php',

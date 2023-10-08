@@ -8,16 +8,16 @@
         <input type="text" id="nome" name="nome" class="form-control" @isset($nome) value="{{$nome}}" @endisset>
 
         <label for="descricao" class="form-label">Descricao</label>
-        <input type="text" id="descricao" name="descricao" class="form-control" @isset($quantidadeInicial) value="{{$quantidadeInicial}}" @endisset>
+        <input type="text" id="descricao" name="descricao" class="form-control" @isset($descricao) value="{{$descricao}}" @endisset>
 
         <label for="quantidade" class="form-label">Quantidade</label>
-        <input type="number" id="quantidade" name="quantidade" class="form-control" @isset($quantidadeAtual) value="{{$quantidadeAtual}}" @endisset>
+        <input type="number" id="quantidade" name="quantidade" class="form-control" @isset($quantidade) value="{{$quantidade}}" @endisset>
 
         <label for="quantidadeDisponivel" class="form-label">Quantidade Disponivel</label>
-        <input type="number" id="quantidadeDisponivel" name="quantidadeDisponivel" class="form-control" step="0.01" @isset($valorCusto) value="{{$valorCusto}}" @endisset>
+        <input type="number" id="quantidadeDisponivel" name="quantidadeDisponivel" class="form-control" step="0.01" @isset($quantidadeDisponivel) value="{{$quantidadeDisponivel}}" @endisset>
 
         <label for="valor" class="form-label">Valor</label>
-        <input type="number" id="valor" name="valor" class="form-control" step="0.01" @isset($valorVenda) value="{{$valorVenda}}" @endisset>
+        <input type="number" id="valor" name="valor" class="form-control" step="0.01" @isset($valor) value="{{$valor}}" @endisset>
     </div>
     <!--
     <div class="row mb-3">

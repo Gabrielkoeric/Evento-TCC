@@ -1,12 +1,13 @@
-<x-layout title="Editar Produto '{{$estoque->nome}}'">
-    <x-estoque.forms :action="route('estoque.update', ['estoque' => $estoque->id_produto_estoque])"
-                        :nome="$estoque->nome"
-                        :quantidadeInicial="$estoque->quantidade_inicial"
-                        :quantidadeAtual="$estoque->quantidade_atual"
-                        :valorCusto="$estoque->valor_custo"
-                        :valorVenda="$estoque->valor_venda">
-    </x-estoque.forms>
+<x-layout title="Editar Ingresso '{{$ingresso->nome}}'">
+    <x-ingresso.forms :action="route('ingressos.update', ['ingresso' => $ingresso->id_ingressos])"
+                      :nome="$ingresso->nome"
+                      :descricao="$ingresso->descricao"
+                      :quantidade="$ingresso->quantidade"
+                      :quantidadeDisponivel="$ingresso->quantidade_disponivel"
+                      :valor="$ingresso->valor">
+    </x-ingresso.forms>
 </x-layout>
+
 
 <!--
 "nome" => "teste"
