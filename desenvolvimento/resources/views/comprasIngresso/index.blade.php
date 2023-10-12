@@ -1,4 +1,4 @@
-<x-layout title="Compra">
+<x-layout title="Compra Ingressos">
     <a href="{{route('home.index')}}" class="btn btn-dark my-3 pr">Home</a>
 
     <form method="post" action="{{ route('compra_ingressos.store') }}">

@@ -16,6 +16,7 @@ return new class extends Migration
         Schema::create('controle_ingressos', function (Blueprint $table) {
             $table->id('id_controle_ingresso');
             $table->string('hash');
+            $table->string('qrcode');
             $table->boolean('check-in');
             $table->boolean('check-out');
             $table->unsignedBigInteger('id_compra_ingresso');

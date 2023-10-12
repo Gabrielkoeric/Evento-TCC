@@ -3,7 +3,6 @@
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
-use Illuminate\Support\Facades\DB;
 
 return new class extends Migration
 {
@@ -14,16 +13,12 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('usuarios', function (Blueprint $table) {
-            $table->id();
-            $table->string('email', 50);
-            $table->string('nome_completo', 255)->nullable();
-            $table->string('celular', 13)->nullable();
-            $table->string('imagem')->nullable();
-            $table->string('permissao')->default('basico');
+        Schema::create('home', function (Blueprint $table) {
+            $table->id('id_home');
+            $table->string('nome_tela');
+            $table->string('imagem_tela');
             $table->timestamps();
         });
-
     }
 
     /**
@@ -33,6 +28,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('usuarios');
+        Schema::dropIfExists('home');
     }
 };

@@ -2,10 +2,12 @@
 
 use App\Http\Controllers\CompraController;
 use App\Http\Controllers\CompraIngressoController;
+use App\Http\Controllers\CheckController;
 use App\Http\Controllers\EstoqueController;
 use App\Http\Controllers\IngressosController;
 use App\Http\Controllers\LoteController;
 use App\Http\Controllers\MercadoPagoController;
+use App\Http\Controllers\NomeacaoController;
 use App\Http\Controllers\PagamentoController;
 use App\Http\Controllers\PedidosController;
 use App\Http\Controllers\ProdutoController;
@@ -57,6 +59,13 @@ Route::resource('ingressos', IngressosController::class)->middleware(Autenticado
 Route::resource('lote', LoteController::class)->middleware(Autenticador::class);
 //compra ingressos
 Route::resource('compra_ingressos', CompraIngressoController::class)->middleware(Autenticador::class);
+//nomeação de ingressos
+Route::resource('nomeacao', NomeacaoController::class)->middleware(Autenticador::class);
+//check-in e check-out
+Route::post('/check/checkout', [CheckController::class, 'checkout'])->name('check.checkout');
+Route::post('/check/checkin', [CheckController::class, 'checkin'])->name('check.checkin');
+Route::get('/check/{hash}', [CheckController::class, 'ingresso'])->middleware(Autenticador::class);
+Route::resource('check', CheckController::class)->middleware(Autenticador::class);
 
 
 //Gerar qrcode

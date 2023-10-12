@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Usuarios;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 use function Laravel\Prompts\select;
 
 class HomeController extends Controller
@@ -16,7 +17,10 @@ class HomeController extends Controller
      */
     public function index()
     {
-        return view('Home.index');
+        $sqls = DB::table('home')->get();
+
+        return view('home.index')->with('sqls', $sqls);
+        //return view('Home.index');
     }
 
     /**

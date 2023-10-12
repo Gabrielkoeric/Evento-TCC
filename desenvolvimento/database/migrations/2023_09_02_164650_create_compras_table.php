@@ -36,20 +36,6 @@ return new class extends Migration
                 END IF;
             END;
         ');
-/*
-        DB::unprepared('
-            CREATE TRIGGER tr_compra_approved AFTER UPDATE ON compras FOR EACH ROW
-            BEGIN
-                IF NEW.status = "approved" AND OLD.status <> "approved" THEN
-                    INSERT INTO produtos_disponiveis (id, id_produto_estoque, quantidade)
-                    SELECT NEW.id, ce.id_produto_estoque, ce.quantidade_compra
-                    FROM compras_estoque ce
-                    WHERE ce.id_compra = NEW.id_compra;
-                END IF;
-            END;
-        ');*/
-
-
     }
 
     /**

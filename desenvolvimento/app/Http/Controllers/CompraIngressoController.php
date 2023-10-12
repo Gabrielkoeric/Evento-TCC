@@ -86,6 +86,7 @@ class CompraIngressoController extends Controller
                     $dados2 = [
                         'id_compra' => $idInserido,
                         'id_lote' => $id_lote[$i],
+                        'permitir_nomeacao' => 0,
                     ];
                 if ($quantidade[$i] > 0) {
                     DB::table('compra_ingresso')->insert($dados2);
@@ -98,6 +99,7 @@ class CompraIngressoController extends Controller
         //dd($idInserido);
         //dd($id_lote , $quantidade);
         //dd($quantidade);
+        return redirect('/payment')->cookie('id', $idInserido)->cookie('valor', $valor)->cookie('hash', $hash);
 
     }
 
