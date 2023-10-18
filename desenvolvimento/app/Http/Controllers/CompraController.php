@@ -83,7 +83,10 @@ class CompraController extends Controller
             'status' => 'aguardando pagamento',
             'hash' => $hash
         ];
-        $idInserido = DB::table('compras')->insertGetId($dados);
+      //  for ($i = 0; $i < 200; $i++) {
+            $idInserido = DB::table('compras')->insertGetId($dados);
+
+
 
         $pagamento = [
             'id' => $idInserido,
@@ -113,6 +116,7 @@ class CompraController extends Controller
             }
         }
         Log::info("id $idInserido, valor $valor, hash $hash");
+        //}
         return redirect('/payment')->cookie('id', $idInserido)->cookie('valor', $valor)->cookie('hash', $hash);
     }
 

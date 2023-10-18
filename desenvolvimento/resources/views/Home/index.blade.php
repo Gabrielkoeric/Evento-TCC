@@ -7,7 +7,7 @@
                         <div class="card text-center">
                             <img src="{{ asset($sql->imagem_tela) }}" class="card-img-top" alt="Imagem de capa do card">
                             <div class="card-body">
-                                <h5 class="card-title" style="color: #495057">{{$sql->nome_tela}}</h5>
+                                <h5 class="card-title" style="color: #495057">{{$sql->nome}}</h5>
                             </div>
                         </div>
                     </a>

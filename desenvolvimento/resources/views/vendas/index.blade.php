@@ -1,6 +1,9 @@
 <x-layout title="Vendas">
     <a href="{{ route('home.index') }}" class="btn btn-dark my-3">Home</a>
-    @foreach ($compras->unique('id_compra') as $compra)
+    <a href="{{ route('vendas.relatorio')}}" class="btn btn-dark my-3">Relatório de Vendas</a>
+
+
+@foreach ($compras->unique('id_compra') as $compra)
         <div class="card mb-3">
             <div class="card-header">
                 Compra número: {{ $compra->id_compra }}

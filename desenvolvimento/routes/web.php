@@ -12,6 +12,7 @@ use App\Http\Controllers\PagamentoController;
 use App\Http\Controllers\PedidosController;
 use App\Http\Controllers\ProdutoController;
 use App\Http\Controllers\QRCodeController;
+use App\Http\Controllers\ResultadosController;
 use App\Http\Controllers\UsuarioController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\VendasController;
@@ -46,6 +47,9 @@ Route::resource('/estoque', EstoqueController::class)->middleware(Autenticador::
 //compra
 Route::resource('/compra', CompraController::class)->middleware(Autenticador::class);
 //vendas
+Route::get('/vendas/relatorio', [VendasController::class, 'relatorio'])->name('vendas.relatorio')->middleware(Autenticador::class);
+//Route::get('/vendas/relatorio/{compras}', [VendasController::class, 'relatorio'])->name('vendas.relatorio')->middleware(Autenticador::class);
+
 Route::resource('/vendas', VendasController::class)->middleware(Autenticador::class);
 //pedidos
 Route::resource('/pedidos', PedidosController::class)->middleware(Autenticador::class);
@@ -61,6 +65,10 @@ Route::resource('lote', LoteController::class)->middleware(Autenticador::class);
 Route::resource('compra_ingressos', CompraIngressoController::class)->middleware(Autenticador::class);
 //nomeação de ingressos
 Route::resource('nomeacao', NomeacaoController::class)->middleware(Autenticador::class);
+//resultados
+Route::get('/resultados/relatorioingresso', [ResultadosController::class, 'relatorioingresso'])->name('resultadosingresso.relatorio')->middleware(Autenticador::class);
+Route::get('/resultados/relatorioproduto', [ResultadosController::class, 'relatorioproduto'])->name('resultadosproduto.relatorio')->middleware(Autenticador::class);
+Route::resource('resultados', ResultadosController::class)->middleware(Autenticador::class);
 //check-in e check-out
 Route::post('/check/checkout', [CheckController::class, 'checkout'])->name('check.checkout');
 Route::post('/check/checkin', [CheckController::class, 'checkin'])->name('check.checkin');

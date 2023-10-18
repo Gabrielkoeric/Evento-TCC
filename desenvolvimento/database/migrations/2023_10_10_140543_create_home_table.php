@@ -15,6 +15,7 @@ return new class extends Migration
     {
         Schema::create('home', function (Blueprint $table) {
             $table->id('id_home');
+            $table->string('nome');
             $table->string('nome_tela');
             $table->string('imagem_tela');
             $table->timestamps();
