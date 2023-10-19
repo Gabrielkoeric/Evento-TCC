@@ -17,6 +17,7 @@ use App\Http\Controllers\UsuarioController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\VendasController;
 use App\Http\Middleware\Autenticador;
+use App\Http\Middleware\ControleAcesso;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\SocialiteController;
 
@@ -36,44 +37,44 @@ Route::get('/', [HomeController::class, 'index'])->name('home.index')->secure();
 //Route::get('/', function () {
 //    return view('welcome');
 //});
-Route::get('/produto/{hash}', [ProdutoController::class, 'processaRetirada']);
+Route::get('/produto/{hash}', [ProdutoController::class, 'processaRetirada'])->middleware(ControleAcesso::class);
 //home
-Route::get('/home', [HomeController::class, 'index'])->name('home.index')->secure();
+Route::get('/home', [HomeController::class, 'index'])->name('home.index');
 
 //usuarios
-Route::resource('/usuario', UsuarioController::class)->middleware(Autenticador::class);
+Route::resource('/usuario', UsuarioController::class)->middleware(Autenticador::class)->middleware(ControleAcesso::class);
 //Produtos
-Route::resource('/estoque', EstoqueController::class)->middleware(Autenticador::class);
+Route::resource('/estoque', EstoqueController::class)->middleware(Autenticador::class)->middleware(ControleAcesso::class);
 //compra
-Route::resource('/compra', CompraController::class)->middleware(Autenticador::class);
+Route::resource('/compra', CompraController::class)->middleware(Autenticador::class)->middleware(ControleAcesso::class);
 //vendas
-Route::get('/vendas/relatorio', [VendasController::class, 'relatorio'])->name('vendas.relatorio')->middleware(Autenticador::class);
+Route::get('/vendas/relatorio', [VendasController::class, 'relatorio'])->name('vendas.relatorio')->middleware(Autenticador::class)->middleware(ControleAcesso::class);
 //Route::get('/vendas/relatorio/{compras}', [VendasController::class, 'relatorio'])->name('vendas.relatorio')->middleware(Autenticador::class);
 
-Route::resource('/vendas', VendasController::class)->middleware(Autenticador::class);
+Route::resource('/vendas', VendasController::class)->middleware(Autenticador::class)->middleware(ControleAcesso::class);
 //pedidos
-Route::resource('/pedidos', PedidosController::class)->middleware(Autenticador::class);
+Route::resource('/pedidos', PedidosController::class)->middleware(Autenticador::class)->middleware(ControleAcesso::class);
 //produtos
-Route::post('/produtos/concluido', [ProdutoController::class, 'concluido'])->name('produtos.concluido');
-Route::get('/produtos/{hash}', [ProdutoController::class, 'processaRetirada'])->middleware(Autenticador::class);
-Route::resource('produtos', ProdutoController::class)->middleware(Autenticador::class);
+Route::post('/produtos/concluido', [ProdutoController::class, 'concluido'])->name('produtos.concluido')->middleware(ControleAcesso::class);
+Route::get('/produtos/{hash}', [ProdutoController::class, 'processaRetirada'])->middleware(Autenticador::class)->middleware(ControleAcesso::class);
+Route::resource('produtos', ProdutoController::class)->middleware(Autenticador::class)->middleware(ControleAcesso::class);
 //ingressos
-Route::resource('ingressos', IngressosController::class)->middleware(Autenticador::class);
+Route::resource('ingressos', IngressosController::class)->middleware(Autenticador::class)->middleware(ControleAcesso::class);
 //lote
-Route::resource('lote', LoteController::class)->middleware(Autenticador::class);
+Route::resource('lote', LoteController::class)->middleware(Autenticador::class)->middleware(ControleAcesso::class);
 //compra ingressos
-Route::resource('compra_ingressos', CompraIngressoController::class)->middleware(Autenticador::class);
+Route::resource('compra_ingressos', CompraIngressoController::class)->middleware(Autenticador::class)->middleware(ControleAcesso::class);
 //nomeação de ingressos
-Route::resource('nomeacao', NomeacaoController::class)->middleware(Autenticador::class);
+Route::resource('nomeacao', NomeacaoController::class)->middleware(Autenticador::class)->middleware(ControleAcesso::class);
 //resultados
-Route::get('/resultados/relatorioingresso', [ResultadosController::class, 'relatorioingresso'])->name('resultadosingresso.relatorio')->middleware(Autenticador::class);
-Route::get('/resultados/relatorioproduto', [ResultadosController::class, 'relatorioproduto'])->name('resultadosproduto.relatorio')->middleware(Autenticador::class);
-Route::resource('resultados', ResultadosController::class)->middleware(Autenticador::class);
+Route::get('/resultados/relatorioingresso', [ResultadosController::class, 'relatorioingresso'])->name('resultadosingresso.relatorio')->middleware(Autenticador::class)->middleware(ControleAcesso::class);
+Route::get('/resultados/relatorioproduto', [ResultadosController::class, 'relatorioproduto'])->name('resultadosproduto.relatorio')->middleware(Autenticador::class)->middleware(ControleAcesso::class);
+Route::resource('resultados', ResultadosController::class)->middleware(Autenticador::class)->middleware(ControleAcesso::class);
 //check-in e check-out
-Route::post('/check/checkout', [CheckController::class, 'checkout'])->name('check.checkout');
-Route::post('/check/checkin', [CheckController::class, 'checkin'])->name('check.checkin');
-Route::get('/check/{hash}', [CheckController::class, 'ingresso'])->middleware(Autenticador::class);
-Route::resource('check', CheckController::class)->middleware(Autenticador::class);
+Route::post('/check/checkout', [CheckController::class, 'checkout'])->name('check.checkout')->middleware(ControleAcesso::class);
+Route::post('/check/checkin', [CheckController::class, 'checkin'])->name('check.checkin')->middleware(ControleAcesso::class);
+Route::get('/check/{hash}', [CheckController::class, 'ingresso'])->middleware(Autenticador::class)->middleware(ControleAcesso::class);
+Route::resource('check', CheckController::class)->middleware(Autenticador::class)->middleware(ControleAcesso::class);
 
 
 //Gerar qrcode
@@ -94,6 +95,7 @@ Route::post('/webhook', [MercadoPagoController::class, 'webhook'])->name('webhoo
 Route::get('login/google', [SocialiteController::class, 'redirectToProvider'])->name('login');
 Route::get('login/google/callback', [SocialiteController::class, 'hendProviderCallback']);
 Route::get('login/logout', [SocialiteController::class, 'destroy'])->name('logout');
+Route::get('/forbidden', function () {return view('forbidden.index');});
 
 Route::get('/email_novo_usuario', function (){return new \App\Mail\NovoUsuario();});
 Route::get('/email_compra', function (){return new \App\Mail\CompraRealizada();});

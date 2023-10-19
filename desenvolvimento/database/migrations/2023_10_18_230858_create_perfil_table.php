@@ -13,12 +13,9 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('home', function (Blueprint $table) {
-            $table->id('id_home');
+        Schema::create('perfil', function (Blueprint $table) {
+            $table->id('id_perfil');
             $table->string('nome');
-            $table->string('nome_tela');
-            $table->string('imagem_tela');
-            $table->boolean('permite_home');
             $table->timestamps();
         });
     }
@@ -30,6 +27,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('home');
+        Schema::dropIfExists('perfil');
     }
 };

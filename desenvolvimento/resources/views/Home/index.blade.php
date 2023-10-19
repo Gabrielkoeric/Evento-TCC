@@ -2,7 +2,7 @@
     <div class="container">
         <div class="row">
             @foreach ($sqls as $sql)
-                <div class="col-md-4 col-lg-3 mb-">
+                <div class="col-md-4 col-lg-3 mb-4">
                     <a href="{{ route($sql->nome_tela . '.index') }}" class="text-decoration-none">
                         <div class="card text-center">
                             <img src="{{ asset($sql->imagem_tela) }}" class="card-img-top" alt="Imagem de capa do card">

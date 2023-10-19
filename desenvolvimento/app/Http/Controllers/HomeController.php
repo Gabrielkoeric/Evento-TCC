@@ -17,7 +17,11 @@ class HomeController extends Controller
      */
     public function index()
     {
-        $sqls = DB::table('home')->get();
+        //$sqls = DB::table('home')->get();
+
+        $sqls = DB::table('home')
+            ->where('permite_home', 1)
+            ->get();
 
         return view('home.index')->with('sqls', $sqls);
         //return view('Home.index');
