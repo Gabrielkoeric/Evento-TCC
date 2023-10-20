@@ -2,7 +2,6 @@
 
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
-use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Schema;
 
 return new class extends Migration
@@ -14,22 +13,13 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('perfil', function (Blueprint $table) {
-            $table->id('id_perfil');
+        Schema::create('custos', function (Blueprint $table) {
+            $table->id('id_custo');
             $table->string('nome');
+            $table->integer('quantidade');
+            $table->float('valor');
             $table->timestamps();
         });
-
-        DB::table('perfil')->insert([
-            [
-                'id_perfil' => 1,
-                'nome' => 'AMD',
-            ],
-            [
-                'id_perfil' => 2,
-                'nome' => 'Padrao',
-            ],
-        ]);
     }
 
     /**
@@ -39,6 +29,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('perfil');
+        Schema::dropIfExists('custos');
     }
 };

@@ -43,6 +43,9 @@ class ResultadosController extends Controller
             ->first();
         $totalValorCusto = $totalValorCusto->total_valor_custo;
 
+        $custos = DB::table('custos')->get();
+
+
         $mensagemSucesso = $request->session()->get('mensagem.sucesso');
 
         return view('resultados.index')->with('mensagemSucesso', $mensagemSucesso)
@@ -50,7 +53,8 @@ class ResultadosController extends Controller
             ->with('comprasIngressos', $comprasIngressos)
             ->with('totalCompraIngresso', $totalCompraIngresso)
             ->with('totalCompraEstoque', $totalCompraEstoque)
-            ->with('totalValorCusto', $totalValorCusto);
+            ->with('totalValorCusto', $totalValorCusto)
+            ->with('custos', $custos);
     }
 
     public function relatorioproduto(){
@@ -83,6 +87,26 @@ class ResultadosController extends Controller
         //dd($compras);
         $pdf = PDF::loadView('resultados.relatorioingresso', ['compras' => $compras]);
         return $pdf->stream('Relatório_de_Vendas.pdf');
+    }
+
+    public function relatorioresultados(){
+        $totalCompraIngresso = DB::table('compras')
+            ->join('compra_ingresso', 'compras.id_compra', '=', 'compra_ingresso.id_compra')
+            ->where('compras.status', '=', 'approved')
+            ->sum('compras.valor');
+
+        $totalCompraEstoque = DB::table('compras')
+            ->join('compras_estoque', 'compras.id_compra', '=', 'compras_estoque.id_compra')
+            ->where('compras.status', '=', 'approved')
+            ->sum('compras.valor');
+
+        $totalValorCusto = DB::table('estoques')
+            ->select(DB::raw('SUM(quantidade_inicial * valor_custo) as total_valor_custo'))
+            ->first();
+        $totalValorCusto = $totalValorCusto->total_valor_custo;
+
+        $pdf = PDF::loadView('resultados.relatorioresultados', ['totalCompraIngresso' => $totalCompraIngresso, 'totalCompraEstoque'=>$totalCompraEstoque, 'totalValorCusto'=> $totalValorCusto ]);
+        return $pdf->stream('Relatório_de_Resultados.pdf');
     }
 
     /**

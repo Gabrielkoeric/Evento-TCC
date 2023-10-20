@@ -80,6 +80,12 @@ class NomeacaoController extends Controller
 
         if (!$usuario) {
             $idUsuario = DB::table('usuarios')->insertGetId(['email' => $email]);
+            DB::table('usuario_perfil')->insert([
+                [
+                    'id' => $usuarioId = $idUsuario,
+                    'id_perfil' => 2,
+                ]
+            ]);
         } else {
             $idUsuario = $usuario->id;
         }

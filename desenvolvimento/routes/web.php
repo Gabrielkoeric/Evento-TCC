@@ -69,6 +69,7 @@ Route::resource('nomeacao', NomeacaoController::class)->middleware(Autenticador:
 //resultados
 Route::get('/resultados/relatorioingresso', [ResultadosController::class, 'relatorioingresso'])->name('resultadosingresso.relatorio')->middleware(Autenticador::class)->middleware(ControleAcesso::class);
 Route::get('/resultados/relatorioproduto', [ResultadosController::class, 'relatorioproduto'])->name('resultadosproduto.relatorio')->middleware(Autenticador::class)->middleware(ControleAcesso::class);
+Route::get('/resultados/relatorioresultados', [ResultadosController::class, 'relatorioresultados'])->name('relatorioresultados.relatorio')->middleware(Autenticador::class)->middleware(ControleAcesso::class);
 Route::resource('resultados', ResultadosController::class)->middleware(Autenticador::class)->middleware(ControleAcesso::class);
 //check-in e check-out
 Route::post('/check/checkout', [CheckController::class, 'checkout'])->name('check.checkout')->middleware(ControleAcesso::class);
