@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Mail\NovoUsuario;
+use App\Models\AccessLog;
 use App\Models\User;
 use App\Models\Usuarios;
 use Illuminate\Http\Request;
@@ -33,6 +34,8 @@ class SocialiteController extends Controller
             $usuario->imagem = $user->getAvatar();
             $usuario->save();
             $existingUser = User::where('email', $user->getEmail())->first();
+
+
             Auth::login($existingUser);
             DB::table('usuario_perfil')->insert([
                 [
@@ -49,6 +52,11 @@ class SocialiteController extends Controller
                 $existingUser->save();
             }
         }
+
+        AccessLog::create([
+            'id' => $existingUser->id,
+            'ip_address' => request()->ip(),
+        ]);
 
         Auth::login($existingUser);
         session([

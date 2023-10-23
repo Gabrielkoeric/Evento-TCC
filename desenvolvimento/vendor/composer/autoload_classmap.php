@@ -8,6 +8,7 @@ $baseDir = dirname($vendorDir);
 return array(
     'App\\Console\\Kernel' => $baseDir . '/app/Console/Kernel.php',
     'App\\Exceptions\\Handler' => $baseDir . '/app/Exceptions/Handler.php',
+    'App\\Http\\Controllers\\AccessLogsController' => $baseDir . '/app/Http/Controllers/AccessLogsController.php',
     'App\\Http\\Controllers\\Api\\CorController' => $baseDir . '/app/Http/Controllers/Api/CorController.php',
     'App\\Http\\Controllers\\CheckController' => $baseDir . '/app/Http/Controllers/CheckController.php',
     'App\\Http\\Controllers\\CompraController' => $baseDir . '/app/Http/Controllers/CompraController.php',
@@ -16,6 +17,7 @@ return array(
     'App\\Http\\Controllers\\EstoqueController' => $baseDir . '/app/Http/Controllers/EstoqueController.php',
     'App\\Http\\Controllers\\HomeController' => $baseDir . '/app/Http/Controllers/HomeController.php',
     'App\\Http\\Controllers\\IngressosController' => $baseDir . '/app/Http/Controllers/IngressosController.php',
+    'App\\Http\\Controllers\\LogsCheckController' => $baseDir . '/app/Http/Controllers/LogsCheckController.php',
     'App\\Http\\Controllers\\LoteController' => $baseDir . '/app/Http/Controllers/LoteController.php',
     'App\\Http\\Controllers\\MercadoPagoController' => $baseDir . '/app/Http/Controllers/MercadoPagoController.php',
     'App\\Http\\Controllers\\NomeacaoController' => $baseDir . '/app/Http/Controllers/NomeacaoController.php',
@@ -41,6 +43,7 @@ return array(
     'App\\Http\\Middleware\\VerifyCsrfToken' => $baseDir . '/app/Http/Middleware/VerifyCsrfToken.php',
     'App\\Mail\\CompraRealizada' => $baseDir . '/app/Mail/CompraRealizada.php',
     'App\\Mail\\NovoUsuario' => $baseDir . '/app/Mail/NovoUsuario.php',
+    'App\\Models\\AccessLog' => $baseDir . '/app/Models/AccessLog.php',
     'App\\Models\\Cor' => $baseDir . '/app/Models/Cor.php',
     'App\\Models\\Estoque' => $baseDir . '/app/Models/Estoque.php',
     'App\\Models\\Estoques' => $baseDir . '/app/Models/Estoques.php',

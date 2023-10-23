@@ -592,6 +592,7 @@ class ComposerStaticInit7561c492602c1bcc4db83eb4d79aa5d4
     public static $classMap = array (
         'App\\Console\\Kernel' => __DIR__ . '/../..' . '/app/Console/Kernel.php',
         'App\\Exceptions\\Handler' => __DIR__ . '/../..' . '/app/Exceptions/Handler.php',
+        'App\\Http\\Controllers\\AccessLogsController' => __DIR__ . '/../..' . '/app/Http/Controllers/AccessLogsController.php',
         'App\\Http\\Controllers\\Api\\CorController' => __DIR__ . '/../..' . '/app/Http/Controllers/Api/CorController.php',
         'App\\Http\\Controllers\\CheckController' => __DIR__ . '/../..' . '/app/Http/Controllers/CheckController.php',
         'App\\Http\\Controllers\\CompraController' => __DIR__ . '/../..' . '/app/Http/Controllers/CompraController.php',
@@ -600,6 +601,7 @@ class ComposerStaticInit7561c492602c1bcc4db83eb4d79aa5d4
         'App\\Http\\Controllers\\EstoqueController' => __DIR__ . '/../..' . '/app/Http/Controllers/EstoqueController.php',
         'App\\Http\\Controllers\\HomeController' => __DIR__ . '/../..' . '/app/Http/Controllers/HomeController.php',
         'App\\Http\\Controllers\\IngressosController' => __DIR__ . '/../..' . '/app/Http/Controllers/IngressosController.php',
+        'App\\Http\\Controllers\\LogsCheckController' => __DIR__ . '/../..' . '/app/Http/Controllers/LogsCheckController.php',
         'App\\Http\\Controllers\\LoteController' => __DIR__ . '/../..' . '/app/Http/Controllers/LoteController.php',
         'App\\Http\\Controllers\\MercadoPagoController' => __DIR__ . '/../..' . '/app/Http/Controllers/MercadoPagoController.php',
         'App\\Http\\Controllers\\NomeacaoController' => __DIR__ . '/../..' . '/app/Http/Controllers/NomeacaoController.php',
@@ -625,6 +627,7 @@ class ComposerStaticInit7561c492602c1bcc4db83eb4d79aa5d4
         'App\\Http\\Middleware\\VerifyCsrfToken' => __DIR__ . '/../..' . '/app/Http/Middleware/VerifyCsrfToken.php',
         'App\\Mail\\CompraRealizada' => __DIR__ . '/../..' . '/app/Mail/CompraRealizada.php',
         'App\\Mail\\NovoUsuario' => __DIR__ . '/../..' . '/app/Mail/NovoUsuario.php',
+        'App\\Models\\AccessLog' => __DIR__ . '/../..' . '/app/Models/AccessLog.php',
         'App\\Models\\Cor' => __DIR__ . '/../..' . '/app/Models/Cor.php',
         'App\\Models\\Estoque' => __DIR__ . '/../..' . '/app/Models/Estoque.php',
         'App\\Models\\Estoques' => __DIR__ . '/../..' . '/app/Models/Estoques.php',

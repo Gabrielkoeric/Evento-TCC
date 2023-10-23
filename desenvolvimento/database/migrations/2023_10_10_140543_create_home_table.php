@@ -136,6 +136,22 @@ return new class extends Migration
                 'created_at' => null,
                 'updated_at' => null,
             ],
+            [
+                'nome' => 'Relatório',
+                'nome_tela' => 'relatorioresultados',
+                'imagem_tela' => 'relatorio',
+                'permite_home' => 0,
+                'created_at' => null,
+                'updated_at' => null,
+            ],
+            [
+                'nome' => 'Logs de Acesso',
+                'nome_tela' => 'access_logs',
+                'imagem_tela' => 'access_logs',
+                'permite_home' => 1,
+                'created_at' => null,
+                'updated_at' => null,
+            ],
         ];
 
         DB::table('home')->insert($dadosPadraoHome);

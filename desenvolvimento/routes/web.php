@@ -1,5 +1,7 @@
 <?php
 
+use App\Http\Controllers\AccessLogsController;
+use App\Http\Controllers\CheckLogsController;
 use App\Http\Controllers\CompraController;
 use App\Http\Controllers\CompraIngressoController;
 use App\Http\Controllers\CheckController;
@@ -76,7 +78,11 @@ Route::post('/check/checkout', [CheckController::class, 'checkout'])->name('chec
 Route::post('/check/checkin', [CheckController::class, 'checkin'])->name('check.checkin')->middleware(ControleAcesso::class);
 Route::get('/check/{hash}', [CheckController::class, 'ingresso'])->middleware(Autenticador::class)->middleware(ControleAcesso::class);
 Route::resource('check', CheckController::class)->middleware(Autenticador::class)->middleware(ControleAcesso::class);
-
+//logs access
+Route::resource('access_logs', AccessLogsController::class)->middleware(Autenticador::class)->middleware(ControleAcesso::class);
+//logs check-in e check-out
+Route::post('/logs_checkout', [CheckLogsController::class, 'checkout'])->name('check.checkout')->middleware(ControleAcesso::class);
+Route::post('/logs_checkin', [CheckLogsController::class, 'checkin'])->name('check.checkin')->middleware(ControleAcesso::class);
 
 //Gerar qrcode
 Route::resource('qrcode', QRCodeController::class)/*->middleware(Autenticador::class)*/;
