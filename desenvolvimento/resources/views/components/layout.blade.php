@@ -10,8 +10,8 @@
 </head>
 <body>
 <nav href="{{route('home.index')}}" class="nav navbar-expand-lg navbar-light bg-secondary">
-    <div class="container-fluid d-flex align-items-center justify-content-between" style="margin-left: 100px; margin-right: 100px; margin-top: 2px;">
-        <h1>{{$title}}</h1>
+    <div class="container-fluid d-flex align-items-center justify-content-between" style="height: 100px; margin-left: 100px; margin-right: 100px; margin-top: 2px;">
+        <h1 style="color: #fff">{{$title}}</h1>
 
         @auth
             <div class="dropdown">
