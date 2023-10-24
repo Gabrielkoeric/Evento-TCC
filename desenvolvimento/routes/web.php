@@ -7,6 +7,8 @@ use App\Http\Controllers\CompraIngressoController;
 use App\Http\Controllers\CheckController;
 use App\Http\Controllers\EstoqueController;
 use App\Http\Controllers\IngressosController;
+use App\Http\Controllers\LogsCheckController;
+use App\Http\Controllers\LogsCheckoutController;
 use App\Http\Controllers\LoteController;
 use App\Http\Controllers\MercadoPagoController;
 use App\Http\Controllers\NomeacaoController;
@@ -76,13 +78,12 @@ Route::resource('resultados', ResultadosController::class)->middleware(Autentica
 //check-in e check-out
 Route::post('/check/checkout', [CheckController::class, 'checkout'])->name('check.checkout')->middleware(ControleAcesso::class);
 Route::post('/check/checkin', [CheckController::class, 'checkin'])->name('check.checkin')->middleware(ControleAcesso::class);
-Route::get('/check/{hash}', [CheckController::class, 'ingresso'])->middleware(Autenticador::class)->middleware(ControleAcesso::class);
+Route::get('/check/{hash}', [CheckController::class, 'ingresso'])->middleware(Autenticador::class)/*->middleware(ControleAcesso::class)*/;
 Route::resource('check', CheckController::class)->middleware(Autenticador::class)->middleware(ControleAcesso::class);
 //logs access
 Route::resource('access_logs', AccessLogsController::class)->middleware(Autenticador::class)->middleware(ControleAcesso::class);
 //logs check-in e check-out
-Route::post('/logs_checkout', [CheckLogsController::class, 'checkout'])->name('check.checkout')->middleware(ControleAcesso::class);
-Route::post('/logs_checkin', [CheckLogsController::class, 'checkin'])->name('check.checkin')->middleware(ControleAcesso::class);
+Route::resource('logs_check', LogsCheckController::class)->middleware(Autenticador::class)->middleware(ControleAcesso::class);
 
 //Gerar qrcode
 Route::resource('qrcode', QRCodeController::class)/*->middleware(Autenticador::class)*/;

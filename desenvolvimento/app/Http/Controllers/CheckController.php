@@ -39,12 +39,33 @@ class CheckController extends Controller
     public function checkin(Request $request){
         $hash = $request->query('hash');
         //dd("check-in");
-        DB::table('controle_ingressos')
+        /*DB::table('controle_ingressos')
             ->where('hash', $hash) // Substitua 'seu_valor_de_hash' pelo valor que você deseja filtrar
             ->update([
                 'check-in' => false, // Define o valor de check-in para true
                 'check-out' => true, // Define o valor de check-out para true
+            ]);*/
+        DB::table('controle_ingressos')
+            ->where('hash', $hash)
+            ->update([
+                'check-in' => false,
+                'check-out' => true
             ]);
+        $id_controle_ingresso = DB::table('controle_ingressos')
+            ->where('hash', $hash)
+            ->value('id_controle_ingresso');
+
+        $usuario = Auth::user()->id;
+
+        $dados = [
+            'checkIn' => 1,
+            'checkOut' => 0,
+            'ip_address' => request()->ip(),
+            'id' => $usuario,
+            'id_controle_ingresso' => $id_controle_ingresso,
+            'created_at' => now()
+        ];
+        DB::table('check_logs')->insert($dados);
         return to_route('home.index');
     }
 
@@ -57,6 +78,22 @@ class CheckController extends Controller
                 'check-in' => true, // Define o valor de check-in para true
                 'check-out' => false, // Define o valor de check-out para true
             ]);
+
+        $id_controle_ingresso = DB::table('controle_ingressos')
+            ->where('hash', $hash)
+            ->value('id_controle_ingresso');
+
+        $usuario = Auth::user()->id;
+
+        $dados = [
+            'checkIn' => 0,
+            'checkOut' => 1,
+            'ip_address' => request()->ip(),
+            'id' => $usuario,
+            'id_controle_ingresso' => $id_controle_ingresso,
+            'created_at' => now()
+        ];
+        DB::table('check_logs')->insert($dados);
         return to_route('home.index');
     }
 
