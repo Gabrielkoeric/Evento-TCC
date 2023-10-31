@@ -22,8 +22,9 @@
                 @foreach ($estoques as $estoque)
                     <tr>
 
-                        <td><a href="{{ route('estoque.edit', $estoque->id_produto_estoque) }}" class="text-decoration-none text-dark"><img src="{{asset('storage/' . $estoque->imagemProduto)}}" alt="imagem" class="img-fluid"></a></td>
-                        <td><a href="{{ route('estoque.edit', $estoque->id_produto_estoque) }}" class="text-decoration-none text-dark">{{ $estoque->nome }}</a></td>
+                        <td><a href="{{ route('estoque.edit', $estoque->id_produto_estoque) }}" class="text-decoration-none text-dark">
+                                <img src="{{asset('storage/' . $estoque->imagemProduto)}}" alt="imagem" class="img-thumbnail" style="max-width: 100px;">
+                            </a></td><td><a href="{{ route('estoque.edit', $estoque->id_produto_estoque) }}" class="text-decoration-none text-dark">{{ $estoque->nome }}</a></td>
                         <td><a href="{{ route('estoque.edit', $estoque->id_produto_estoque) }}" class="text-decoration-none text-dark">{{ $estoque->quantidade_inicial }}</a></td>
                         <td><a href="{{ route('estoque.edit', $estoque->id_produto_estoque) }}" class="text-decoration-none text-dark">{{ $estoque->quantidade_atual }}</a></td>
                         <td><a href="{{ route('estoque.edit', $estoque->id_produto_estoque) }}" class="text-decoration-none text-dark">{{ $estoque->valor_custo }}</a></td>

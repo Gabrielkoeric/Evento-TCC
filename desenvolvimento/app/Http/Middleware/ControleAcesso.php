@@ -33,6 +33,7 @@ class ControleAcesso
             ->all();
 
         $rotaAtual = $request->route()->getName();
+        Log::info('rota acessada', ['data' => $rotaAtual]);
         $nomeDaTela = explode('.', $rotaAtual)[0];
         $temPermissao = false;
 

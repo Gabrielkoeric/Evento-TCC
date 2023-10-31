@@ -15,7 +15,9 @@
             <tbody>
             @foreach ($sqls as $sql)
                 <tr>
-                    <td><img src="{{ asset('storage/' . $sql->imagemProduto) }}" alt="imagem" class="img-fluid"></td>
+
+                    <td><img src="{{ asset('storage/' . $sql->imagemProduto) }}" alt="imagem" class="img-fluid" style="max-width: 100px;"> <!-- Defina o valor máximo adequado para a largura -->
+                    </td>
                     <td>{{ $sql->nome_produto }}</td>
                     <td>{{ $sql->quantidade }}</td>
                     <td>

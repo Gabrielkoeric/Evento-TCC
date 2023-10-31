@@ -1,5 +1,5 @@
 <x-layout title="Ingresso">
-    <a href="{{ route('home.index') }}" class="btn btn-dark mb-2">Home</a>
+    <a href="{{route('home.index')}}" class="btn btn-dark my-3 pr">Home</a>
 
     <div class="container">
         <div class="row justify-content-center">

@@ -11,7 +11,7 @@
             <thead>
             <tr>
                 <th scope="col">ID</th>
-                <th scope="col">Numero</th>
+                <th scope="col">Numero Lote</th>
                 <th scope="col">Quantidade</th>
                 <th scope="col">Quantidade Disponivel</th>
                 <th scope="col">Ativo</th>

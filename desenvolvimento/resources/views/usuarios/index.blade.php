@@ -1,6 +1,6 @@
 <x-layout title="Usuarios">
-    <a href="{{route('home.index')}}" class="btn btn-dark mb-2">Home</a>
-    <a href="{{route('usuario.create')}}" class="btn btn-dark mb-2">Adicionar</a>
+    <a href="{{route('home.index')}}" class="btn btn-dark my-3 pr">Home</a>
+    <a href="{{route('usuario.create')}}" class="btn btn-dark my-3">Adicionar</a>
 
     @isset($mensagemSucesso)
         <div class="alert alert-success">{{ $mensagemSucesso }}</div>

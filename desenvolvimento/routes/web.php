@@ -36,15 +36,10 @@ use App\Http\Controllers\SocialiteController;
 | contains the "web" middleware group. Now create something great!
 |
 */
-Route::get('/', [HomeController::class, 'index'])->name('home.index')->secure();
 
-//Route::get('/', function () {
-//    return view('welcome');
-//});
-Route::get('/produto/{hash}', [ProdutoController::class, 'processaRetirada'])->middleware(ControleAcesso::class);
 //home
+Route::get('/', [HomeController::class, 'index'])->name('home.index')->secure();
 Route::get('/home', [HomeController::class, 'index'])->name('home.index');
-
 //usuarios
 Route::resource('/usuario', UsuarioController::class)->middleware(Autenticador::class)->middleware(ControleAcesso::class);
 //Produtos
@@ -54,13 +49,13 @@ Route::resource('/compra', CompraController::class)->middleware(Autenticador::cl
 //vendas
 Route::get('/vendas/relatorio', [VendasController::class, 'relatorio'])->name('vendas.relatorio')->middleware(Autenticador::class)->middleware(ControleAcesso::class);
 //Route::get('/vendas/relatorio/{compras}', [VendasController::class, 'relatorio'])->name('vendas.relatorio')->middleware(Autenticador::class);
-
 Route::resource('/vendas', VendasController::class)->middleware(Autenticador::class)->middleware(ControleAcesso::class);
 //pedidos
 Route::resource('/pedidos', PedidosController::class)->middleware(Autenticador::class)->middleware(ControleAcesso::class);
 //produtos
+Route::get('/produto/{hash}', [ProdutoController::class, 'processaRetirada'])/*->middleware(ControleAcesso::class)*/;
 Route::post('/produtos/concluido', [ProdutoController::class, 'concluido'])->name('produtos.concluido')->middleware(ControleAcesso::class);
-Route::get('/produtos/{hash}', [ProdutoController::class, 'processaRetirada'])->middleware(Autenticador::class)->middleware(ControleAcesso::class);
+Route::get('/produtos/{hash}', [ProdutoController::class, 'processaRetirada'])->middleware(Autenticador::class)/*->middleware(ControleAcesso::class)*/;
 Route::resource('produtos', ProdutoController::class)->middleware(Autenticador::class)->middleware(ControleAcesso::class);
 //ingressos
 Route::resource('ingressos', IngressosController::class)->middleware(Autenticador::class)->middleware(ControleAcesso::class);
