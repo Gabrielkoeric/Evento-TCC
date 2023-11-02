@@ -14,6 +14,7 @@ use App\Http\Controllers\MercadoPagoController;
 use App\Http\Controllers\NomeacaoController;
 use App\Http\Controllers\PagamentoController;
 use App\Http\Controllers\PedidosController;
+use App\Http\Controllers\PerfilController;
 use App\Http\Controllers\ProdutoController;
 use App\Http\Controllers\QRCodeController;
 use App\Http\Controllers\ResultadosController;
@@ -79,6 +80,8 @@ Route::resource('check', CheckController::class)->middleware(Autenticador::class
 Route::resource('access_logs', AccessLogsController::class)->middleware(Autenticador::class)->middleware(ControleAcesso::class);
 //logs check-in e check-out
 Route::resource('logs_check', LogsCheckController::class)->middleware(Autenticador::class)->middleware(ControleAcesso::class);
+//perfis de usuarios
+Route::resource('perfis_usuarios', PerfilController::class)->middleware(Autenticador::class)->middleware(ControleAcesso::class);
 
 //Gerar qrcode
 Route::resource('qrcode', QRCodeController::class)/*->middleware(Autenticador::class)*/;
