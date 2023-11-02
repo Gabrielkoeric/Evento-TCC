@@ -3,8 +3,7 @@
                         :nome="$usuario->nome_completo"
                         :email="$usuario->email"
                         :celular="$usuario->celular"
-                        :perfis="$perfis"
-                        :perfilAtual="$perfilAtual"
+                        :permissao="$usuario->permissao"
     >
     </x-usuario.forms>
 </x-layout>

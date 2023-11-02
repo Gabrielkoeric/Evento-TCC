@@ -13,6 +13,7 @@
                     <th scope="col">Nome</th>
                     <th scope="col">Email</th>
                     <th scope="col">Celular</th>
+                    <th scope="col">Perfil</th>
                 </tr>
                 </thead>
                 <tbody>
@@ -21,13 +22,14 @@
                         <td><a href="{{ route('usuario.edit', $usuario->id ) }}" class="text-decoration-none text-dark">{{ $usuario->nome_completo }}</a></td>
                         <td><a href="{{ route('usuario.edit', $usuario->id) }}" class="text-decoration-none text-dark">{{ $usuario->email }}</a></td>
                         <td><a href="{{ route('usuario.edit', $usuario->id) }}" class="text-decoration-none text-dark">{{ $usuario->celular }}</a></td>
+                        <td><a href="{{ route('usuario.edit', $usuario->id) }}" class="text-decoration-none text-dark">{{ $usuario->nome_perfil }}</a></td>
                         <td>
                         <span class="d-flex">
-                            <form action="{{route('usuario.destroy', $usuario)}}" method="post" class="ms-2">
+                            <!--<form action="{{route('usuario.destroy', $usuario->id)}}" method="post" class="ms-2">
                                 @csrf
                                 @method('DELETE')
                                 <button class="btn btn-danger btn-sm">Excluir</button>
-                            </form>
+                            </form>-->
                         </span>
                         </td>
                     </tr>

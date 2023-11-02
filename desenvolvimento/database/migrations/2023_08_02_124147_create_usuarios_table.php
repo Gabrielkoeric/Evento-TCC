@@ -20,7 +20,6 @@ return new class extends Migration
             $table->string('nome_completo', 255)->nullable();
             $table->string('celular', 13)->nullable();
             $table->string('imagem')->nullable();
-            $table->string('permissao')->default('basico');
             $table->timestamps();
         });
 

@@ -2,104 +2,90 @@
 
 namespace App\Http\Controllers;
 
-
 use App\Models\Usuarios;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class UsuarioController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
     public function index(Request $request)
     {
-        $usuarios = Usuarios::all();
+        $usuarios = DB::table('usuarios as u')
+            ->select('u.id', 'u.nome_completo', 'u.email', 'u.imagem', 'u.celular', 'p.nome as nome_perfil')
+            ->leftJoin('usuario_perfil as up', 'u.id', '=', 'up.id')
+            ->leftJoin('perfil as p', 'up.id_perfil', '=', 'p.id_perfil')
+            ->get();
         $mensagemSucesso = $request->session()->get('mensagem.sucesso');
 
         return view('usuarios.index')->with('usuarios', $usuarios)->with('mensagemSucesso', $mensagemSucesso);
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
     public function create()
     {
-        return view('usuarios.create');
+        $perfis = DB::table('perfil')
+            ->select('id_perfil', 'nome')
+            ->get();
+        return view('usuarios.create')->with('perfis', $perfis);
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
     public function store(Request $request)
     {
 
         $usuario = $request->input('nome');
         $email = $request->input('email');
         $celular = $request->input('celular');
-        $permissao = $request->input('permissao');
+        $permissao = $request->input('perfil');
 
-        $usuario_n = new Usuarios();
-        $usuario_n->nome_completo = $usuario;
-        $usuario_n->email = $email;
-        $usuario_n->celular = $celular;
-        $usuario_n->permissao = $permissao;
-        $usuario_n->save();
+        $dados = [
+            'email' => $email,
+            'celular' => $celular,
+            'nome_completo' => $usuario,
+        ];
+        $id = DB::table('usuarios')->insertGetId($dados);
+
+        $dados2= [
+            'id' => $id,
+            'id_perfil' => $permissao,
+        ];
+
+        DB::table('usuario_perfil')->insertGetId($dados2);
+
         return redirect('/usuario')->with('mensagem.sucesso', 'Usuario inserido com sucesso!');
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show($id)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
     public function edit(Usuarios $usuario)
     {
-        return view('usuarios.edit')->with('usuario', $usuario);
+        $perfis = DB::table('perfil')
+            ->select('id_perfil', 'nome')
+            ->get();
+
+        $perfilAtual = DB::table('usuarios as u')
+            ->select('p.nome as nome_perfil', 'p.id_perfil as id_perfil')
+            ->leftJoin('usuario_perfil as up', 'u.id', '=', 'up.id')
+            ->leftJoin('perfil as p', 'up.id_perfil', '=', 'p.id_perfil')
+            ->where('u.id', '=', $usuario->id)
+            ->first();
+        return view('usuarios.edit')->with('usuario', $usuario)->with('perfis', $perfis)->with('perfilAtual', $perfilAtual);
     }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function update($usuario, Request $request)
+    public function update($id, Request $request)
     {
-        $usuarioObj = Usuarios::findOrFail($usuario);
-        $usuarioObj->nome_completo = $request->nome;
-        //$usuarioObj->email = $request->email;
-        $usuarioObj->celular = $request->celular;
-        $usuarioObj->permissao = $request->permissao;
-        $usuarioObj->save();
+        DB::table('usuarios')
+            ->where('id', $id)
+            ->update([
+                'email' => $request->email,
+                'celular' => $request->celular,
+                'nome_completo' => $request->nome,
+            ]);
+        DB::table('usuario_perfil')
+            ->where('id', $id)
+            ->update([
+                'id_perfil' => $request->perfil,
+            ]);
+
         return redirect()->route('usuario.index')->with('mensagem.sucesso', 'Usuário Alterado com Sucesso');
     }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
     public function destroy(Usuarios $usuario)
     {
         $usuario->delete();

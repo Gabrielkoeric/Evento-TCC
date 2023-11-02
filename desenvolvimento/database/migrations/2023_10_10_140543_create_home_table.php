@@ -147,7 +147,7 @@ return new class extends Migration
             [
                 'nome' => 'Logs de Acesso',
                 'nome_tela' => 'access_logs',
-                'imagem_tela' => 'access_logs',
+                'imagem_tela' => 'storage/home/log_access.png',
                 'permite_home' => 1,
                 'created_at' => null,
                 'updated_at' => null,
@@ -155,7 +155,15 @@ return new class extends Migration
             [
                 'nome' => 'Logs Check-In, Check-Out',
                 'nome_tela' => 'logs_check',
-                'imagem_tela' => 'access_logs',
+                'imagem_tela' => 'storage/home/log_check.png',
+                'permite_home' => 1,
+                'created_at' => null,
+                'updated_at' => null,
+            ],
+            [
+                'nome' => 'Perfis de Usuarios',
+                'nome_tela' => 'perfis_usuarios',
+                'imagem_tela' => 'storage/home/perfis_usuarios.png',
                 'permite_home' => 1,
                 'created_at' => null,
                 'updated_at' => null,
