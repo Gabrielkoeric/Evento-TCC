@@ -76,6 +76,13 @@ class UsuarioController extends Controller
 
     public function update($id, Request $request)
     {
+        $request->validate([
+            'nome' => ['required', 'min:3'],
+            'email' => ['required', 'email'], // Add the 'email' rule for email validation
+            'celular' => ['required', 'min:10', 'max:11'],
+            'perfil' => ['required']
+        ]);
+
         DB::table('usuarios')
             ->where('id', $id)
             ->update([

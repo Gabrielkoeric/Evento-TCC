@@ -61,7 +61,11 @@ class PagamentoController extends Controller
         // Salve a preferência e obtenha a URL de pagamento
         $preference->save();
         $paymentUrl = $preference->init_point;
-
+        DB::table('compras')
+            ->where('hash', $hash)
+            ->update([
+                'link_pagamento' => $paymentUrl,
+            ]);
         // Redirecione o usuário para a página de pagamento do MercadoPago
         return redirect($paymentUrl);
     }

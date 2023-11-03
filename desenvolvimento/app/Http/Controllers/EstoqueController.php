@@ -9,11 +9,6 @@ use Illuminate\Support\Facades\Storage;
 
 class EstoqueController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
     public function index(Request $request)
     {
         $estoques = Estoques::all();
@@ -23,25 +18,22 @@ class EstoqueController extends Controller
         return view('estoques.index')->with('estoques', $estoques)->with('mensagemSucesso', $mensagemSucesso);
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
     public function create()
     {
         return view('estoques.create');
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
     public function store(Request $request)
     {
-        //dd($request);
+        $request->validate([
+            'nome' => 'required|min:3',
+            'quantidadeInicial' => 'required|numeric',
+            'quantidadeAtual' => 'required|numeric',
+            'valorCusto' => 'required|numeric',
+            'valorVenda' => 'required|numeric',
+            'imagemProduto' => 'required|image|mimes:png,jpeg,gif|max:1000',
+        ]);
+
         $imagemProdutoPath = $request->file('imagemProduto')->store('imagemProduto', 'public');
         $request->imagemProduto = $imagemProdutoPath;
         $nome = $request->input('nome');
@@ -50,69 +42,53 @@ class EstoqueController extends Controller
         $valorCusto = $request->input('valorCusto');
         $valorVenda = $request->input('valorVenda');
 
-        $produto_novo = new Estoques();
-        $produto_novo->nome = $nome;
-        $produto_novo->quantidade_inicial = $quantidadeInicial;
-        $produto_novo->quantidade_atual = $quantidadeAtual;
-        $produto_novo->valor_custo = $valorCusto;
-        $produto_novo->valor_venda = $valorVenda;
-        $produto_novo->imagemProduto = $imagemProdutoPath;
-        $produto_novo->save();
+        $dados = [
+            'nome' => $nome,
+            'quantidade_inicial' => $quantidadeInicial,
+            'quantidade_atual' => $quantidadeAtual,
+            'valor_custo' => $valorCusto,
+            'valor_venda' => $valorVenda,
+            'imagemProduto' => $imagemProdutoPath,
+        ];
+        DB::table('estoques')->insertGetId($dados);
 
         return redirect('/estoque')->with('mensagem.sucesso', 'Produto inserido com sucesso!');
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show($id)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $cod_produto_estoque
-     * @return \Illuminate\Http\Response
-     */
     public function edit(Estoques $estoque)
     {
         return view('estoques.edit')->with('estoque', $estoque);
     }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $cod_produto_estoque
-     * @return \Illuminate\Http\Response
-     */
-    public function update($estoque, Request $request)
+    public function update($id_produto_estoque, Request $request)
     {
-        $estoqueObj = Estoques::findOrFail($estoque);
-        $estoqueObj->nome = $request->nome;
-        $estoqueObj->quantidade_inicial = $request->quantidadeInicial;
-        $estoqueObj->quantidade_atual = $request->quantidadeAtual;
-        $estoqueObj->valor_custo = $request->valorCusto;
-        $estoqueObj->valor_venda = $request->valorVenda;
-        $estoqueObj->save();
+        $request->validate([
+            'nome' => 'required|min:3',
+            'quantidadeInicial' => 'required|numeric',
+            'quantidadeAtual' => 'required|numeric',
+            'valorCusto' => 'required|numeric',
+            'valorVenda' => 'required|numeric',
+            'imagemProduto' => 'required|image|mimes:png,jpeg,gif|max:1000',
+        ]);
+
+        $imagemProdutoPath = $request->file('imagemProduto')->store('imagemProduto', 'public');
+
+        DB::table('estoques')
+            ->where('id_produto_estoque', $id_produto_estoque)
+            ->update([
+                'nome' => $request->nome,
+                'quantidade_inicial' => $request->quantidadeInicial,
+                'quantidade_atual' => $request->quantidadeAtual,
+                'valor_custo' => $request->valorCusto,
+                'valor_venda' => $request->valorVenda,
+                'imagemProduto' => $imagemProdutoPath
+            ]);
 
         return redirect()->route('estoque.index')->with('mensagem.sucesso', 'Produto Alterado com Sucesso!');
     }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
     public function destroy(Estoques $estoque)
     {
-        //dd($estoque->imagemProduto);
         Storage::delete($estoque->imagemProduto);
         $estoque->delete();
 
