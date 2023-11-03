@@ -23,8 +23,6 @@ class CompraController extends Controller
     public function index(Request $request)
     {
         $estoques = Estoques::where('quantidade_atual', '>', 0)->get();
-
-
         $mensagemSucesso = $request->session()->get('mensagem.sucesso');
         return view('compras.index')->with('estoques', $estoques)->with('mensagemSucesso', $mensagemSucesso);
     }
@@ -39,10 +37,12 @@ class CompraController extends Controller
         $status = "Aguardando pagamento";
 
             for ($i = 0; $i < count($estoque_id); $i++) {
-                $valorProduto = DB::table('estoques')
-                    ->where('id_produto_estoque', $estoque_id[$i])
-                    ->value('valor_venda');
-                $valor = $valor + ($valorProduto * $quantidade[$i]);
+
+                    $valorProduto = DB::table('estoques')
+                        ->where('id_produto_estoque', $estoque_id[$i])
+                        ->value('valor_venda');
+                    $valor = $valor + ($valorProduto * $quantidade[$i]);
+
             }
 
         $dados = [
@@ -54,22 +54,20 @@ class CompraController extends Controller
             $idInserido = DB::table('compras')->insertGetId($dados);
 
         //email
-       /* $usuario = Auth::user();
+        /*$usuario = Auth::user();
         $email = new CompraRealizada($valor, $status);
         Mail::to($usuario->email)->queue($email);*/
 
             for ($i = 0; $i < count($estoque_id); $i++) {
-                echo ("$estoque_id[$i] -");
-                echo ("$quantidade[$i]");
-
-                $dados2 = [
-                    'id_compra' => $idInserido,
-                    'id_produto_estoque' => $estoque_id[$i],
-                    'quantidade_compra' => $quantidade[$i],
-                    'quantidade_restante' => $quantidade[$i]
-                ];
-                DB::table('compras_estoque')->insert($dados2);
-
+                if ($quantidade[$i] > 0) {
+                    $dados2 = [
+                        'id_compra' => $idInserido,
+                        'id_produto_estoque' => $estoque_id[$i],
+                        'quantidade_compra' => $quantidade[$i],
+                        'quantidade_restante' => $quantidade[$i]
+                    ];
+                    DB::table('compras_estoque')->insert($dados2);
+                }
             }
         return redirect('/payment')->cookie('id', $idInserido)->cookie('valor', $valor)->cookie('hash', $hash);
     }
