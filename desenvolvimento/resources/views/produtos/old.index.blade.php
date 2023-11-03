@@ -26,8 +26,6 @@
                                 <button type="button" class="btn btn-outline-secondary decrease">-</button>
                             </div>
                             <input type="text" class="form-control text-center number" name="quantidade[{{ $sql->id_produtos_disponiveis }}]" value="0" readonly>
-                            <!--<input type="text" class="form-control text-center number" name="quantidade[{{ $sql->id_produtos_disponiveis }}]" value="0" readonly data-maxQuantity="{{ $sql->quantidade }}">-->
-
                             <div class="input-group-append">
                                 <button type="button" class="btn btn-outline-secondary increase">+</button>
                             </div>
