@@ -74,19 +74,41 @@ class PagamentoController extends Controller
         $collectionStatus = $request->input('collection_status');
         $status = $request->input('status');
         $externalReference = $request->input('external_reference');
+        $usuario = Auth::user()->id;
 
         DB::table('compras')
             ->where('hash', $externalReference) // Substitua $idDaCompra pelo ID da compra que você deseja atualizar
             ->update(['status' => $status]);
 
-        return to_route('home.index');
-        //dd("sucesso, $collectionStatus, $status, $externalReference");
-    }
+        $resultados = DB::table('compras_estoque')
+            ->join('compras', 'compras_estoque.id_compra', '=', 'compras.id_compra')
+            ->where('compras.hash', $externalReference)
+            ->select('compras_estoque.*')
+            ->get();/*
+        foreach ($resultados as $resultado) {
+            DB::table('produtos_disponiveis')->insert([
+                'id' => $usuario,
+                'id_produto_estoque' => $resultado->id_produto_estoque,
+                'quantidade' => $resultado->quantidade_compra
+            ]);
+        }*/
 
+        foreach ($resultados as $resultado) {
+            DB::table('produtos_disponiveis')->updateOrInsert(
+                [
+                    'id' => $usuario,
+                    'id_produto_estoque' => $resultado->id_produto_estoque,
+                ],
+                [
+                    'quantidade' => DB::raw('quantidade + ' . $resultado->quantidade_compra)
+                ]
+            );
+        }
+        return to_route('home.index');
+    }
     public function flaha(){
         dd("flaha");
     }
-
     public function pendente(){
         dd("pendente");
     }

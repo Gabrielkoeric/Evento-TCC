@@ -1,4 +1,4 @@
-<x-layout title="Pedidos">
+<x-layout title="Vendas">
     <a href="{{ route('home.index') }}" class="btn btn-dark my-3">Home</a>
     <!--<a href="{{ route('vendas.relatorio')}}" class="btn btn-dark my-3">Relatório de Vendas</a>-->
 

@@ -20,7 +20,7 @@ class PedidosController extends Controller
         $usuario = Auth::user()->id;
 
         $compras = DB::table('compras as c')
-            ->select('c.id_compra', 'e.nome AS nome_produto', 'c.valor', 'c.status')
+            ->select('c.id_compra', 'e.nome AS nome_produto', 'c.valor', 'c.status', 'c.link_pagamento')
             ->join('compras_estoque as ce', 'c.id_compra', '=', 'ce.id_compra')
             ->join('estoques as e', 'ce.id_produto_estoque', '=', 'e.id_produto_estoque')
             ->where('id', $usuario) // Filtra as compras do usuário logado
@@ -28,7 +28,7 @@ class PedidosController extends Controller
 
         //dd($compras);
         $mensagemSucesso = $request->session()->get('mensagem.sucesso');
-        return view('vendas.index')->with('compras', $compras)->with('mensagemSucesso', $mensagemSucesso);
+        return view('pedidos.index')->with('compras', $compras)->with('mensagemSucesso', $mensagemSucesso);
     }
 
     /**
