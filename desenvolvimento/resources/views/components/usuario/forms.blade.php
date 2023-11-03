@@ -6,17 +6,17 @@
 
     <div class="mb-3">
         <label for="nome" class=form-label>Nome:</label>
-        <input type="text" id="nome" name="nome" class="form-control" @isset($nome) value="{{$nome}}" @endisset>
+        <input type="text" id="nome" name="nome" class="form-control" @isset($nome) value="{{$nome}}" @endisset required>
 
         <label for="email" class=form-label>E-mail</label>
         <input type="email" id="email" name="email" class="form-control" @isset($email) value="{{$email}}" @endisset
-        @isset($email) readonly @endisset>
+        @isset($email) readonly @endisset required>
 
         <label for="celular" class=form-label>Celular</label>
-        <input type="tel" id="celular" name="celular" class="form-control" @isset($celular) value="{{$celular}}" @endisset>
+        <input type="tel" id="celular" name="celular" class="form-control" @isset($celular) value="{{$celular}}" @endisset required>
 
         <label for="permissao" class=form-label>Permissão</label>
-        <select id="perfil" name="perfil" class="form-control">
+        <select id="perfil" name="perfil" class="form-control" required>
             @if(!isset($perfilAtual))
             <option value="">Selecione o Perfil para o Usuario</option>
             @endif
@@ -33,7 +33,7 @@
                         <option value="{{ $perfil->id_perfil }}">{{ $perfil->nome }}</option>
                     @endif
             @endforeach
-        </select>
+        </select >
     </div>
     <button type="submit" class="btn btn-primary">Salvar</button>
     <a href="{{route('usuario.index')}}" class="btn btn-primary">Cancelar</a>
