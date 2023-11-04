@@ -6,10 +6,10 @@
 
     <div class="mb-3">
         <label for="email" class=form-label>E-mail do Usuario:</label>
-        <input type="text" id="email" name="email" class="form-control" @isset($email) value="{{$email}}" @endisset>
+        <input type="text" id="email" name="email" class="form-control" @isset($email) value="{{$email}}" @endisset required>
 
         <label for="ingresso" class="form-label">Ingresso</label>
-        <select id="ingresso" name="ingresso" class="form-control">
+        <select id="ingresso" name="ingresso" class="form-control" required>
             <option value="">Selecione o ingresso</option> <!-- Opção padrão -->
             @foreach ($sqls as $sql)
                 <option value="{{ $sql->id_compra_ingresso }}">{{ $sql->nome_ingresso }}</option>

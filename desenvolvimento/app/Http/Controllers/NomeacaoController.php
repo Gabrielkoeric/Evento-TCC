@@ -15,11 +15,6 @@ use Illuminate\Support\Str;
 
 class NomeacaoController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
     public function index(Request $request)
     {
         $usuario = Auth::user()->id;
@@ -33,18 +28,10 @@ class NomeacaoController extends Controller
             ->select('ci.id_controle_ingresso', 'i.nome AS nome_ingresso', 'u.email AS email_usuario')
             ->get();
 
-// Agora, você pode usar $resultados para acessar os dados retornados pela consulta
-
-
         $mensagemSucesso = $request->session()->get('mensagem.sucesso');
         return view('nomeacao.index')->with('sqls', $sqls)->with('mensagemSucesso', $mensagemSucesso);
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
     public function create()
     {
         $usuario = Auth::user()->id;
@@ -58,18 +45,17 @@ class NomeacaoController extends Controller
             ->where('C.status', 'approved')
             ->where('C.id', $usuario)
             ->get();
-        //dd("$ingressos");
+
         return view('nomeacao.create')->with('sqls', $sqls);
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
     public function store(Request $request)
     {
+        $request->validate([
+            'ingresso' => ['required'],
+            'email' => ['required', 'email'],
+        ]);
+
         $email = $request->input('email');
         $id = $request->input('ingresso');
 
@@ -82,7 +68,7 @@ class NomeacaoController extends Controller
             $idUsuario = DB::table('usuarios')->insertGetId(['email' => $email]);
             DB::table('usuario_perfil')->insert([
                 [
-                    'id' => $usuarioId = $idUsuario,
+                    'id' => $idUsuario,
                     'id_perfil' => 2,
                 ]
             ]);
@@ -120,50 +106,5 @@ class NomeacaoController extends Controller
         DB::table('controle_ingressos')->insert($dados);
         DB::table('compra_ingresso')->where(['id_compra_ingresso' => $id])->update(['permitir_nomeacao' => 0]);
         return to_route('nomeacao.index');
-    }
-
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show($id)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, $id)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy($id)
-    {
-        //
     }
 }
