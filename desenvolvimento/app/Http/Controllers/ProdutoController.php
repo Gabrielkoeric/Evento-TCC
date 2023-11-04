@@ -17,11 +17,6 @@ use Symfony\Component\HttpFoundation\Response;
 
 class ProdutoController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
     public function index(Request $request)
     {
         $usuario = Auth::user()->id;
@@ -35,23 +30,6 @@ class ProdutoController extends Controller
 
         return view('produtos.index')->with('sqls', $sqls);
     }
-
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
     public function processaRetirada($hash)
     {
         $retiradaInfo = DB::table('retiradas')
@@ -83,10 +61,10 @@ class ProdutoController extends Controller
         return to_route('home.index');
     }
 
-
     public function store(Request $request)
     {
         $dadosRequisicao = $request;
+
         $hash = Str::random(35);
         $url = env('APP_URL');
         $uri = "$url/produtos/$hash";
@@ -127,51 +105,5 @@ class ProdutoController extends Controller
         $caminhoArquivo = 'qrcode/' . $nomeArquivo; // Caminho do arquivo no disco 'public'
         Storage::disk('public')->put($caminhoArquivo, $qrCodeImage);
         return view('produtos.qrcode')->with('qrcode', $caminhoArquivo);
-    }
-
-
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show($id)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, $id)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy($id)
-    {
-        //
     }
 }

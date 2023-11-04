@@ -29,6 +29,9 @@ class CompraController extends Controller
 
     public function store(Request $request)
     {
+        $request->validate([
+            'quantidade' => ['required'],
+        ]);
         $usuario = Auth::user()->id;
         $quantidade = $request->input('quantidade');
         $estoque_id = $request->input('estoque_id');

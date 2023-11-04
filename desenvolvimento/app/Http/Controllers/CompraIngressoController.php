@@ -9,11 +9,7 @@ use Illuminate\Support\Str;
 
 class CompraIngressoController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
+
     public function index(Request $request)
     {
         $resultados = DB::table('lote')
@@ -22,40 +18,16 @@ class CompraIngressoController extends Controller
             ->where('lote.ativo', 1)
             ->get();
 
-       /* foreach ($resultados as $resultado) {
-            // Acesse os campos desejados usando $resultado->campo
-            echo "ID Lote: " . $resultado->id_lote . "<br>";
-            echo "Número do Lote: " . $resultado->numero_lote . "<br>";
-            echo "Quantidade do Lote Disponível: " . $resultado->quantidade_lote_disponivel . "<br>";
-            echo "Adicional do Lote: " . $resultado->adicional_lote . "<br>";
-            echo "Nome do Ingresso: " . $resultado->nome . "<br>";
-            echo "Descrição do Ingresso: " . $resultado->descricao . "<br>";
-            echo "Valor do Ingresso: " . $resultado->valor . "<br>";
-            echo "<br>";
-        }*/
         $mensagemSucesso = $request->session()->get('mensagem.sucesso');
 
         return view('comprasIngresso.index')->with('resultados', $resultados)->with('mensagemSucesso', $mensagemSucesso);
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
     public function store(Request $request)
     {
+        $request->validate([
+            'lote_id' => ['required'],
+        ]);
         $usuario = Auth::user()->id;
         $quantidade = $request->input('quantidade');
         $id_lote = $request->input('lote_id');
@@ -95,56 +67,7 @@ class CompraIngressoController extends Controller
             }
         }
 
-
-        //dd($idInserido);
-        //dd($id_lote , $quantidade);
-        //dd($quantidade);
         return redirect('/payment')->cookie('id', $idInserido)->cookie('valor', $valor)->cookie('hash', $hash);
 
-    }
-
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show($id)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, $id)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy($id)
-    {
-        //
     }
 }

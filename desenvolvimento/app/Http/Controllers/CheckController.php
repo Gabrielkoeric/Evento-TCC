@@ -8,11 +8,6 @@ use Illuminate\Support\Facades\DB;
 
 class CheckController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
     public function ingresso($hash)
     {
         $ingressoInfo = DB::table('controle_ingressos')
@@ -35,16 +30,9 @@ class CheckController extends Controller
             abort(404);
         }
     }
-
     public function checkin(Request $request){
         $hash = $request->query('hash');
-        //dd("check-in");
-        /*DB::table('controle_ingressos')
-            ->where('hash', $hash) // Substitua 'seu_valor_de_hash' pelo valor que você deseja filtrar
-            ->update([
-                'check-in' => false, // Define o valor de check-in para true
-                'check-out' => true, // Define o valor de check-out para true
-            ]);*/
+
         DB::table('controle_ingressos')
             ->where('hash', $hash)
             ->update([
@@ -71,7 +59,7 @@ class CheckController extends Controller
 
     public function checkout(Request $request){
         $hash = $request->query('hash');
-        //dd("check-out");
+
         DB::table('controle_ingressos')
             ->where('hash', $hash) // Substitua 'seu_valor_de_hash' pelo valor que você deseja filtrar
             ->update([
@@ -97,7 +85,6 @@ class CheckController extends Controller
         return to_route('home.index');
     }
 
-
     public function index()
     {
         $usuario = Auth::user()->id;
@@ -108,71 +95,5 @@ class CheckController extends Controller
             ->where('controle_ingressos.id', $usuario)
             ->get();
         return view('check.index')->with('sqls', $sqls);
-    }
-
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(Request $request)
-    {
-        //
-    }
-
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show($id)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, $id)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy($id)
-    {
-        //
     }
 }
