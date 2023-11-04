@@ -7,7 +7,9 @@
                       :adicionalLote="$lote->adicional_lote"
                       :ativo="$lote->quantidade_disponivel"
                       :valor="$lote->valor"
-                      :ingresso="$lote->id_ingresso">
+                      :ingresso="$lote->id_ingresso"
+                      :ingressoAtual="$ingressoAtual"
+                        >
     </x-lote.forms>
 </x-layout>
 

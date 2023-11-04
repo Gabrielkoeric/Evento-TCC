@@ -5,14 +5,8 @@ namespace App\Http\Controllers;
 use App\Models\Lote;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
-
 class LoteController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
     public function index(Request $request)
     {
         $lotes = DB::table('lote')
@@ -20,33 +14,29 @@ class LoteController extends Controller
             ->join('ingressos', 'lote.id_ingressos', '=', 'ingressos.id_ingressos')
             ->get();
         $mensagemSucesso = $request->session()->get('mensagem.sucesso');
-        //dd("$lotes");
+
         return view('lote.index')->with('lotes', $lotes)->with('mensagemSucesso', $mensagemSucesso);
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
     public function create()
     {
         $ingressos = DB::table('ingressos')
             ->select('id_ingressos', 'nome')
             ->get();
-        //dd("$ingressos");
+
         return view('lote.create')->with('ingressos', $ingressos);
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
     public function store(Request $request)
     {
-        //dd("$request");
+        $request->validate([
+            'numeroLote' => 'required|numeric|min:1',
+            'quantidadeLote' => 'required|numeric',
+            'quantidadeLoteDisponivel' => 'required|numeric',
+            'adicionalLote' => 'required|numeric',
+            'ingresso' => 'required',
+        ]);
+
         $numeroLote = $request->input('numeroLote');
         $quantidadeLote = $request->input('quantidadeLote');
         $quantidadeLoteDisponivel = $request->input('quantidadeLoteDisponivel');
@@ -63,46 +53,36 @@ class LoteController extends Controller
             'ativo' => $ativo,
             'id_ingressos' => $ingresso
             ];
-        //dd("$numeroLote, $quantidadeLote, $quantidadeLoteDisponivel, $ativo, $ingresso");
         DB::table('lote')->insertGetId($dados);
+
         return redirect('/lote')->with('mensagem.sucesso', 'Lote inserido com sucesso!');
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show($id)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
     public function edit(Lote $lote)
     {
-        //dd("$ingresso");
         $ingressos = DB::table('ingressos')
             ->select('id_ingressos', 'nome')
             ->get();
-        return view('lote.edit')->with('lote', $lote)->with('ingressos', $ingressos);
+
+        $ingressoAtual = DB::table('lote')
+            ->select('lote.id_lote', 'ingressos.id_ingressos', 'ingressos.nome')
+            ->join('ingressos', 'lote.id_ingressos', '=', 'ingressos.id_ingressos')
+            ->where('lote.id_lote', $lote->id_lote)
+            ->first();
+
+        return view('lote.edit')->with('lote', $lote)->with('ingressos', $ingressos)->with('ingressoAtual', $ingressoAtual);
     }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
     public function update(Request $request, $id_lote)
     {
+        $request->validate([
+            'numeroLote' => 'required|numeric|min:1',
+            'quantidadeLote' => 'required|numeric',
+            'quantidadeLoteDisponivel' => 'required|numeric',
+            'adicionalLote' => 'required|numeric',
+            'ingresso' => 'required',
+        ]);
+
         $ativo = $request->ativo;
         $ativo = ($ativo === 'on') ? 1 : 0;
         DB::table('lote')
@@ -117,12 +97,6 @@ class LoteController extends Controller
         return redirect()->route('lote.index')->with('mensagem.sucesso', 'Ingresso Alterado com Sucesso!');
     }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
     public function destroy(Lote $lote)
     {
         $lote->delete();

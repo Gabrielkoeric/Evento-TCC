@@ -5,16 +5,16 @@
     @endisset
     <div class="mb-3">
         <label for="numeroLote" class="form-label">Numero Lote:</label>
-        <input type="text" id="numeroLote" name="numeroLote" class="form-control" @isset($numeroLote) value="{{$numeroLote}}" @endisset>
+        <input type="text" id="numeroLote" name="numeroLote" class="form-control" @isset($numeroLote) value="{{$numeroLote}}" @endisset required>
 
         <label for="quantidadeLote" class="form-label">Quantidade Lote</label>
-        <input type="number" id="quantidadeLote" name="quantidadeLote" class="form-control" @isset($quantidadeLote) value="{{$quantidadeLote}}" @endisset>
+        <input type="number" id="quantidadeLote" name="quantidadeLote" class="form-control" @isset($quantidadeLote) value="{{$quantidadeLote}}" @endisset required>
 
         <label for="quantidadeLoteDisponivel" class="form-label">Quantidade Lote Disponivel</label>
-        <input type="number" id="quantidadeLoteDisponivel" name="quantidadeLoteDisponivel" class="form-control" @isset($quantidadeLoteDisponivel) value="{{$quantidadeLoteDisponivel}}" @endisset>
+        <input type="number" id="quantidadeLoteDisponivel" name="quantidadeLoteDisponivel" class="form-control" @isset($quantidadeLoteDisponivel) value="{{$quantidadeLoteDisponivel}}" @endisset required>
 
         <label for="adicionalLote" class="form-label">Valor Adicional Lote</label>
-        <input type="number" id="adicionalLote" name="adicionalLote" class="form-control" step="0.01" @isset($adicionalLote) value="{{$adicionalLote}}" @endisset>
+        <input type="number" id="adicionalLote" name="adicionalLote" class="form-control" step="0.01" @isset($adicionalLote) value="{{$adicionalLote}}" @endisset required>
 
         <div class="form-check">
             <input type="checkbox" id="ativo" name="ativo" class="form-check-input" @isset($ativo) checked @endisset>
@@ -22,12 +22,37 @@
         </div>
 
         <label for="ingresso" class="form-label">Ingresso</label>
-        <select id="ingresso" name="ingresso" class="form-control">
-            <option value="">Selecione o ingresso</option> <!-- Opção padrão -->
+        <select id="ingresso" name="ingresso" class="form-control" required>
+            @if(!isset($ingressoAtual))
+                <option value="">Selecione o ingresso</option>
+            @endif
+            @if(isset($ingressoAtual))
+                <option value="{{ $ingressoAtual->id_ingressos }}">{{ $ingressoAtual->nome }}</option>
+                @endif
             @foreach ($ingressos as $ingresso)
-                <option value="{{ $ingresso->id_ingressos }}">{{ $ingresso->nome }}</option>
+                    @if (isset($ingressoAtual))
+                        @if ($ingresso->id_ingressos <> $ingressoAtual->id_ingressos)
+                            <option value="{{ $ingresso->id_ingressos }}">{{ $ingresso->nome }}</option>
+                        @endif
+                    @else
+                        <option value="{{ $ingresso->id_ingressos }}">{{ $ingresso->nome }}</option>
+                    @endif
             @endforeach
         </select>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
