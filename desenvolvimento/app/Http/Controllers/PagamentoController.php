@@ -11,7 +11,8 @@ use Illuminate\Support\Facades\Log;
 use MercadoPago\Item;
 use MercadoPago\Payer;
 use MercadoPago\Preference;
-
+use MercadoPago\SDK;
+use MercadoPago\Payment;
 
 
 class PagamentoController extends Controller
@@ -27,7 +28,7 @@ class PagamentoController extends Controller
         $id = $request->cookie('id');
         $valor = $request->cookie('valor');
         $hash = $request->cookie('hash');
-               $nome = Auth::user()->name;
+        $nome = Auth::user()->name;
         $email = Auth::user()->email;
         $accessToken = config('services.mercado_pago.access_token');
         // Configure suas credenciais do MercadoPago
@@ -61,6 +62,7 @@ class PagamentoController extends Controller
         // Salve a preferência e obtenha a URL de pagamento
         $preference->save();
         $paymentUrl = $preference->init_point;
+
         DB::table('compras')
             ->where('hash', $hash)
             ->update([
@@ -111,5 +113,65 @@ class PagamentoController extends Controller
     }
     public function pendente(){
         dd("pendente");
+    }
+
+    public function handleWebhook(Request $request)
+    {
+        // Configurar as credenciais do Mercado Pago
+        $accessToken = config('services.mercado_pago.access_token');
+        SDK::setAccessToken($accessToken);
+
+        // Log de todas as informações disponíveis na notificação
+
+        Log::info('Recebida notificação do Mercado Pago');
+        Log::info('Tipo de evento: ' . $request->input('type'));
+        Log::info('ID do recurso: ' . $request->input('data.id'));
+        Log::info('Status do recurso: ' . $request->input('data.status'));
+        Log::info('Data de criação: ' . $request->input('date_created'));
+        Log::info('ID do usuário: ' . $request->input('user_id'));
+        Log::info('Versão da API: ' . $request->input('api_version'));
+
+        //consulta na api
+        // Consultar o status da compra
+        $paymentId = $request->input('data.id');
+        $payment = Payment::find_by_id($paymentId);
+
+        // Log de informações detalhadas do pagamento
+        Log::info('Detalhes do pagamento:');
+        Log::info('ID: ' . $payment->id);
+        Log::info('Status: ' . $payment->status);
+        Log::info('Método de pagamento: ' . $payment->payment_method_id);
+        Log::info('Valor: ' . $payment->transaction_amount);
+        Log::info('Descrição: ' . $payment->description);
+        //pegar o id interno
+        // Acessar os detalhes do item
+        $items = $payment->additional_info->items;
+// Verificar se existem itens e obter o ID
+        if (!empty($items)) {
+            $itemId = $items[0]->id;
+            Log::info('ID do item: ' . $itemId);
+        }
+
+        // Responder ao Mercado Pago para confirmar o recebimento da notificação
+        return response()->json(['status' => 'OK'], 200);
+    }
+
+    public function teste()
+    {
+        $accessToken = config('services.mercado_pago.access_token');
+        SDK::setAccessToken($accessToken);
+
+        // External Reference a ser buscado
+        $externalReference = 'JipbTF9eEsB2N3M2YZsYPlrICLTciDE0aIbW';
+
+        // Obtém os dados do pagamento usando external reference
+        $payment = SDK::get("/v1/payments/search", [
+            'external_reference' => $externalReference,
+        ]);
+
+        // Registra as informações em um arquivo de log
+        Log::info('Informações do pagamento:', ['payment' => $payment]);
+
+        return 'Dados do pagamento registrados no log.';
     }
 }

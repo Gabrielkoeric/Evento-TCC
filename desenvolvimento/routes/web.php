@@ -90,10 +90,12 @@ Route::get('/payment', [PagamentoController::class, 'createPayment'])->name('pay
 Route::get('/payment/success', [PagamentoController::class, 'secesso'])->name('payment.secesso');
 Route::get('/payment/failure', [PagamentoController::class, 'flaha'])->name('payment.flaha');
 Route::get('/payment/pending', [PagamentoController::class, 'pendente'])->name('payment.pendente');
+Route::post('/webhook', [PagamentoController::class, 'handleWebhook']);
+
 
 
 Route::get('/checkout', [MercadoPagoController::class, 'iniciarPagamento'])->name('checkout')->middleware(Autenticador::class);
-Route::post('/webhook', [MercadoPagoController::class, 'webhook'])->name('webhook');
+//Route::post('/webhook', [MercadoPagoController::class, 'webhook'])->name('webhook');
 
 
 //Route::get('login/google', "SocialiteController@redirectToProvider");
