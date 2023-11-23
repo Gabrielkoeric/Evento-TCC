@@ -168,6 +168,22 @@ return new class extends Migration
                 'created_at' => null,
                 'updated_at' => null,
             ],
+            [
+                'nome' => 'Entrega de Produtos',
+                'nome_tela' => 'produto_entrega',
+                'imagem_tela' => 'n/t',
+                'permite_home' => 0,
+                'created_at' => null,
+                'updated_at' => null,
+            ],
+            [
+                'nome' => 'Liberação Check',
+                'nome_tela' => 'check_liberacao',
+                'imagem_tela' => 'n/t',
+                'permite_home' => 0,
+                'created_at' => null,
+                'updated_at' => null,
+            ],
         ];
 
         DB::table('home')->insert($dadosPadraoHome);

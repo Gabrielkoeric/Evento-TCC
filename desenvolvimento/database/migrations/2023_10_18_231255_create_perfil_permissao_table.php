@@ -44,6 +44,8 @@ return new class extends Migration
             ['id_home' => 16, 'id_perfil' => 1],
             ['id_home' => 17, 'id_perfil' => 1],
             ['id_home' => 18, 'id_perfil' => 1],
+            ['id_home' => 19, 'id_perfil' => 1],
+            ['id_home' => 20, 'id_perfil' => 1],
             //padrao
             ['id_home' => 3, 'id_perfil' => 2],
             ['id_home' => 5, 'id_perfil' => 2],

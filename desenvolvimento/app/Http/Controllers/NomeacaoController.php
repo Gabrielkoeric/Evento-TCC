@@ -80,7 +80,7 @@ class NomeacaoController extends Controller
 
         //gerar qrcode
         $url = env('APP_URL');
-        $uri = "$url/check/$hash";
+        $uri = "$url/check_liberacao/$hash";
         $result = Builder::create()
             ->writer(new PngWriter())
             ->data($uri)

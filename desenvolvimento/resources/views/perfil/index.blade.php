@@ -1,6 +1,5 @@
 <x-layout title="Perfil de Usuarios">
     <a href="{{route('home.index')}}" class="btn btn-dark my-3 pr">Home</a>
-    <a href="{{route('usuario.create')}}" class="btn btn-dark my-3">Adicionar</a>
 
     <ul class="list-group">
         @php

@@ -54,9 +54,9 @@ Route::resource('/vendas', VendasController::class)->middleware(Autenticador::cl
 //pedidos
 Route::resource('/pedidos', PedidosController::class)->middleware(Autenticador::class)->middleware(ControleAcesso::class);
 //produtos
-Route::get('/produto/{hash}', [ProdutoController::class, 'processaRetirada'])/*->middleware(ControleAcesso::class)*/;
+//Route::get('/produto/{hash}', [ProdutoController::class, 'processaRetirada'])/*->middleware(ControleAcesso::class)*/;
 Route::post('/produtos/concluido', [ProdutoController::class, 'concluido'])->name('produtos.concluido')->middleware(ControleAcesso::class);
-Route::get('/produtos/{hash}', [ProdutoController::class, 'processaRetirada'])->middleware(Autenticador::class)/*->middleware(ControleAcesso::class)*/;
+Route::get('/produto_entrega/{hash}', [ProdutoController::class, 'processaRetirada'])->name('produto_entrega.index')->middleware(Autenticador::class)->middleware(ControleAcesso::class);
 Route::resource('produtos', ProdutoController::class)->middleware(Autenticador::class)->middleware(ControleAcesso::class);
 //ingressos
 Route::resource('ingressos', IngressosController::class)->middleware(Autenticador::class)->middleware(ControleAcesso::class);
@@ -74,7 +74,7 @@ Route::resource('resultados', ResultadosController::class)->middleware(Autentica
 //check-in e check-out
 Route::post('/check/checkout', [CheckController::class, 'checkout'])->name('check.checkout')->middleware(ControleAcesso::class);
 Route::post('/check/checkin', [CheckController::class, 'checkin'])->name('check.checkin')->middleware(ControleAcesso::class);
-Route::get('/check/{hash}', [CheckController::class, 'ingresso'])->middleware(Autenticador::class)/*->middleware(ControleAcesso::class)*/;
+Route::get('/check_liberacao/{hash}', [CheckController::class, 'ingresso'])->name('check_liberacao.index')->middleware(Autenticador::class)->middleware(ControleAcesso::class);
 Route::resource('check', CheckController::class)->middleware(Autenticador::class)->middleware(ControleAcesso::class);
 //logs access
 Route::resource('access_logs', AccessLogsController::class)->middleware(Autenticador::class)->middleware(ControleAcesso::class);

@@ -67,7 +67,7 @@ class ProdutoController extends Controller
 
         $hash = Str::random(35);
         $url = env('APP_URL');
-        $uri = "$url/produtos/$hash";
+        $uri = "$url/produto_entrega/$hash";
         $quantidades = $request->input('quantidade');
         $nomes = $request->input('nome');
         $id_produto_estoque = $request->input('id_produtos_disponiveis');
